@@ -1,0 +1,279 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Senior-friendly base styles */
+body {
+  background-color: #F5F5F5;
+  color: #111827;
+  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 1.25rem; /* 20px base for seniors */
+  line-height: 1.7;
+}
+
+/* Larger touch targets for seniors */
+button, a {
+  min-height: 48px;
+  min-width: 48px;
+}
+
+/* High contrast for better visibility */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Two-tone iOS style progress bar */
+.progress-bar {
+  position: relative;
+  height: 0.625rem;
+  background-color: #E5E7EB;
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: linear-gradient(to right, #FFD700, #1976D2);
+  border-radius: 9999px;
+  transition: width 0.5s ease-out;
+}
+
+/* Senior-friendly button styles */
+.btn-primary {
+  background-color: #1976D2;
+  color: white;
+  font-weight: 600;
+  padding: 1rem 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  transition: all 0.2s;
+  font-size: 1.25rem;
+}
+
+.btn-primary:hover {
+  background-color: #1565C0;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 8px -1px rgb(0 0 0 / 0.15);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-secondary {
+  background-color: #B0B0B0;
+  color: #374151;
+  font-weight: 600;
+  padding: 1rem 2rem;
+  border-radius: 1rem;
+  transition: all 0.2s;
+  font-size: 1.25rem;
+}
+
+.btn-secondary:hover {
+  background-color: #9CA3AF;
+}
+
+/* Card styles */
+.card {
+  background-color: white;
+  border-radius: 1.5rem;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  padding: 1.5rem;
+  transition: all 0.3s;
+}
+
+.card-hover:hover {
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+  transform: translateY(-2px);
+}
+
+/* Module card with custom background colors */
+.module-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.module-card-locked {
+  opacity: 0.6;
+  filter: grayscale(50%);
+}
+
+/* Animations */
+@keyframes pulse-arrow {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.1);
+  }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+@keyframes float-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.pulse-arrow {
+  animation: pulse-arrow 2s ease-in-out infinite;
+}
+
+.shake-animation {
+  animation: shake 0.3s ease-in-out;
+}
+
+.blink-animation {
+  animation: blink 0.5s ease-in-out 2;
+}
+
+.float-up {
+  animation: float-up 0.5s ease-out;
+}
+
+/* Interactive overlay for simulations */
+.interactive-overlay {
+  position: absolute;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.interactive-overlay.clickable {
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+/* Arrow pointer for guidance */
+.arrow-pointer {
+  position: absolute;
+  width: 48px;
+  height: 48px;
+  animation: pulse-arrow 2s ease-in-out infinite;
+  z-index: 20;
+}
+
+/* Practice mode banner */
+.practice-banner {
+  background: linear-gradient(135deg, #FFD700 0%, #FFA000 100%);
+  color: #000;
+  font-weight: 700;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Badge styles */
+.badge-container {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #FFD700 0%, #FFA000 100%);
+  border-radius: 50%;
+  box-shadow: 0 8px 16px rgba(255, 215, 0, 0.4);
+  animation: float-up 0.5s ease-out;
+}
+
+.badge-icon {
+  font-size: 4rem;
+}
+
+.badge-locked {
+  opacity: 0.4;
+  filter: grayscale(100%);
+}
+
+/* Custom scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background-color: #F3F4F6;
+  border-radius: 9999px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #D1D5DB;
+  border-radius: 9999px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: #9CA3AF;
+}
+
+/* Loading states */
+.skeleton {
+  background: linear-gradient(90deg, #F3F4F6 0%, #E5E7EB 50%, #F3F4F6 100%);
+  background-size: 200% 100%;
+  animation: loading 1.5s ease-in-out infinite;
+}
+
+@keyframes loading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Step dots for lesson progress */
+.step-dots {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.step-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #D1D5DB;
+  transition: all 0.3s;
+}
+
+.step-dot.active {
+  background-color: #1976D2;
+  transform: scale(1.3);
+}
+
+.step-dot.completed {
+  background-color: #4CAF50;
+}
+
+/* Celebration overlay */
+.celebration-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  animation: float-up 0.3s ease-out;
+}
