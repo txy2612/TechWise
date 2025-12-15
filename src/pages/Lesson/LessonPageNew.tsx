@@ -13,11 +13,10 @@ import { GmailSignInNav } from '../../components/simulations/module1/GmailSignIn
 import { GmailOrganize } from '../../components/simulations/module1/GmailOrganize';
 //Module 2
 import GoogleSearchBasics from '../../components/simulations/module2/GoogleSearchBasics';
-import SearchFiltersAndTabs from '../../components/simulations/module2/SearchFiltersAndTabs';
-import NearestClinicSearch from '../../components/simulations/module2/NearestClinicSearch';
-import CookingRecipeSearch from '../../components/simulations/module2/CookingRecipeSearch';
+import GoogleVoiceSearch from '../../components/simulations/module2/GoogleVoiceSearch';
+import GoogleFilterTabs from '../../components/simulations/module2/GoogleFilterTabs';
 
-const LessonPage = () => {
+const LessonPageNew = () => {
   const { lessonId } = useParams<{ lessonId: string }>();
   const navigate = useNavigate();
   const { i18n, t } = useTranslation();
@@ -86,15 +85,11 @@ const LessonPage = () => {
     }
     
     if (lesson.id === 'lesson-search-2') {
-      return <SearchFiltersAndTabs onComplete={handleStepComplete} language={currentLang} />;
+      return <GoogleVoiceSearch onComplete={handleStepComplete} language={currentLang} />;
     }
     
     if (lesson.id === 'lesson-search-3') {
-      return <NearestClinicSearch onComplete={handleStepComplete} language={currentLang} />;
-    }
-    
-    if (lesson.id === 'lesson-search-4') {
-      return <CookingRecipeSearch onComplete={handleStepComplete} language={currentLang} />;
+      return <GoogleFilterTabs onComplete={handleStepComplete} language={currentLang} />;
     }
 
     // Default tutorial/practice content
@@ -209,4 +204,4 @@ const LessonPage = () => {
   );
 };
 
-export default LessonPage;
+export default LessonPageNew;
