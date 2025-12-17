@@ -105,20 +105,25 @@ const GmailComposeRealistic: React.FC<GmailComposeRealisticProps> = ({ onComplet
             {/* Sidebar */}
             <div className="w-64 bg-white p-4 border-r border-gray-200">
               {/* Compose Button - HIGHLIGHTED */}
-              <div className="relative">
-                <button
-                  onClick={handleComposeClick}
-                  className="w-full bg-blue-100 hover:bg-blue-200 text-gray-900 font-semibold py-4 px-6 rounded-2xl flex items-center gap-3 shadow-lg transition-all ring-4 ring-blue-300 animate-pulse"
-                >
-                  <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
-                  </svg>
-                  <span className="text-senior-base">{t.compose}</span>
-                </button>
-                
-                {/* Pulsing Arrow */}
-                <AnimatedArrow direction="right" position="right" />
-              </div>
+
+        <div className="relative">
+         <button
+          onClick={handleComposeClick}
+          className="w-full bg-blue-100 hover:bg-blue-200 text-gray-900 font-semibold
+               py-4 px-6 rounded-2xl flex items-center gap-3
+               shadow-lg transition-all ring-4 ring-blue-300 animate-pulse"
+  >
+            <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+            </svg>
+            <span className="text-senior-base">{t.compose}</span>
+            </button>
+
+        {/* Arrow */}
+        <div className="absolute -right-2 top-1/2 -translate-y-1/2 translate-y-14 z-10">
+        <AnimatedArrow direction="left" />
+        </div>
+        </div>
 
               {/* Menu Items */}
               <div className="mt-4 space-y-1">
