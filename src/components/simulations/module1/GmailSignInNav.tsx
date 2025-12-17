@@ -96,36 +96,44 @@ export function GmailSignInNav({ onComplete, onBack, language }: GmailSignInNavP
         )}
 
         {/* Visual Content - Step 2: Sign In */}
-        {currentStep === 2 && (
-          <div className="bg-white rounded-2xl shadow-xl p-12">
-            <div className="bg-gray-50 rounded-xl p-8 border-2 border-gray-300">
-              {/* Mock browser header */}
-              <div className="bg-white p-4 rounded-lg shadow-md mb-8 flex items-center justify-between">
-                <div className="flex items-center gap-4">
-                  <Mail className="w-8 h-8 text-red-500" />
-                  <span className="text-2xl font-bold">Gmail</span>
-                </div>
-                <div className="relative">
-                  <button className="px-8 py-4 bg-blue-500 text-white font-bold rounded-lg text-xl pulse-border ring-4 ring-blue-200">
-                    {t.signIn}
-                  </button>
-                  <div className="absolute -top-16 left-1/2 -translate-x-1/2 pulse-arrow">
-                    <div className="flex flex-col items-center">
-                      <ArrowRight className="w-10 h-10 text-blue-600 rotate-[-90deg]" />
-                      <div className="bg-blue-500 text-white px-4 py-2 rounded-lg text-lg font-semibold mt-2 whitespace-nowrap">
-                        {t.clickHere}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+{currentStep === 2 && (
+  <div className="bg-white rounded-2xl shadow-xl p-12">
+    <div className="bg-gray-50 rounded-xl p-8 border-2 border-gray-300">
+      {/* Mock browser header */}
+      <div className="bg-white p-4 rounded-lg shadow-md mb-8 flex items-center justify-between">
+        <div className="flex items-center gap-4">
+          <Mail className="w-8 h-8 text-red-500" />
+          <span className="text-2xl font-bold">Gmail</span>
+        </div>
+
+        {/* Sign In area */}
+        <div className="relative flex flex-col items-center">
+          {/* Tooltip INSIDE the same box */}
+          <div className="mb-2 flex flex-col items-center gap-1 pulse-arrow pointer-events-none">
+            <div className="bg-blue-500 text-white px-4 py-2 rounded-lg text-lg font-semibold whitespace-nowrap shadow-lg">
+              {t.clickHere}
             </div>
+            {/* arrow down to the button */}
+            <ArrowRight className="w-8 h-8 text-blue-600 rotate-90" />
           </div>
-        )}
+
+          {/* Sign In Button */}
+          <button
+            type="button"
+            className="px-8 py-4 bg-blue-500 text-white font-bold rounded-lg text-xl pulse-border ring-4 ring-blue-200"
+            onClick={handleNext} // IMPORTANT: keeps your flow working
+          >
+            {t.signIn}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
 
         {/* Visual Content - Steps 3-7: Gmail Interface */}
         {(currentStep >= 3 && currentStep <= 7) && (
-          <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
+          <div className="bg-white rounded-2xl shadow-xl overflow-visible">
             {/* Gmail Header */}
             <div className="bg-white border-b border-gray-200 p-4 flex items-center justify-between relative">
               <div className="flex items-center gap-4">
@@ -134,40 +142,54 @@ export function GmailSignInNav({ onComplete, onBack, language }: GmailSignInNavP
                 <span className="text-2xl font-semibold text-gray-900">Gmail</span>
               </div>
               <div className="flex items-center gap-4">
-                <div className={`flex-1 ${currentStep === 6 ? 'pulse-border ring-4 ring-blue-200 rounded-lg' : ''}`}>
-                  <div className="flex items-center gap-3 bg-gray-100 rounded-lg px-4 py-3">
-                    <Search className="w-6 h-6 text-gray-500" />
-                    <input
-                      type="text"
-                      placeholder={t.searchPlaceholder}
-                      className="bg-transparent text-lg outline-none w-80"
-                      readOnly
-                    />
-                  </div>
-                </div>
-                {currentStep === 6 && (
-                  <div className="absolute -top-16 left-1/2 -translate-x-1/2 pulse-arrow">
-                    <div className="flex flex-col items-center">
-                      <ArrowRight className="w-10 h-10 text-blue-600 rotate-[-90deg]" />
-                      <div className="bg-blue-500 text-white px-4 py-2 rounded-lg text-lg font-semibold mt-2 whitespace-nowrap">
-                        {t.searchHere}
-                      </div>
-                    </div>
-                  </div>
-                )}
-                <div className={`p-3 rounded-full hover:bg-gray-100 relative ${currentStep === 7 ? 'bg-blue-100 pulse-border ring-4 ring-blue-200' : ''}`}>
-                  <Settings className="w-6 h-6 text-gray-600" />
-                  {currentStep === 7 && (
-                    <div className="absolute -top-16 left-1/2 -translate-x-1/2 pulse-arrow">
-                      <div className="flex flex-col items-center">
-                        <ArrowRight className="w-10 h-10 text-blue-600 rotate-[-90deg]" />
-                        <div className="bg-blue-500 text-white px-4 py-2 rounded-lg text-lg font-semibold mt-2 whitespace-nowrap">
-                          {t.settings}
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                </div>
+                <div className="relative">
+  
+        {/* Search Bar */}
+         <div className="relative">
+           <div className={`${currentStep === 6 ? 'pulse-border ring-4 ring-blue-200 rounded-lg' : ''}`}>
+          <div className="flex items-center gap-3 bg-gray-100 rounded-lg px-4 py-3">
+          <Search className="w-6 h-6 text-gray-500" />
+          <input
+           type="text"
+           placeholder={t.searchPlaceholder}
+           className="bg-transparent text-lg outline-none w-80"
+           readOnly
+      />
+    </div>
+  </div>
+
+        {currentStep === 6 && (
+          <div className="absolute -bottom-14 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 pulse-arrow pointer-events-none">
+           <ArrowRight className="w-10 h-10 text-blue-600 -rotate-90" />
+          <div className="bg-blue-500 text-white px-4 py-2 rounded-lg text-lg font-semibold whitespace-nowrap shadow-lg">
+          {t.searchHere}
+        </div>
+        </div>
+        )}
+    </div>
+    </div>
+                {/* Settings */}
+           <div
+           className={`relative p-3 rounded-full hover:bg-gray-100 ${
+           currentStep === 7 ? "bg-blue-100 pulse-border ring-4 ring-blue-200" : ""
+  }`}
+>
+  <Settings className="w-6 h-6 text-gray-600" />
+
+  {currentStep === 7 && (
+    <div className="absolute left-1/2 top-full -translate-x-1/2 mt-3 flex flex-col items-center gap-1 pointer-events-none z-50">
+      {/* Arrow pointing UP to the settings icon */}
+      <ArrowRight className="w-8 h-8 text-blue-600 -rotate-90" />
+
+      {/* Label */}
+      <div className="bg-blue-500 text-white px-4 py-2 rounded-lg text-lg font-semibold whitespace-nowrap shadow-lg">
+        {t.settings}
+      </div>
+    </div>
+  )}
+</div>
+                
+                
                 <div className="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center">
                   <User className="w-6 h-6 text-white" />
                 </div>
@@ -176,7 +198,7 @@ export function GmailSignInNav({ onComplete, onBack, language }: GmailSignInNavP
 
             <div className="flex" style={{ height: '500px' }}>
               {/* Sidebar */}
-              <div className="w-64 bg-gray-50 border-r border-gray-200 p-4">
+              <div className="w-64 bg-gray-50 border-r border-gray-200 p-4 relative overflow-visible">
                 <div className="space-y-2">
                   <div className={`relative ${currentStep === 4 ? 'pulse-border ring-4 ring-blue-200 rounded-xl' : ''}`}>
                     <button className="w-full flex items-center gap-3 px-6 py-4 bg-blue-500 hover:bg-blue-600 text-white font-bold rounded-xl shadow-md">
@@ -184,16 +206,14 @@ export function GmailSignInNav({ onComplete, onBack, language }: GmailSignInNavP
                       {t.compose}
                     </button>
                     {currentStep === 4 && (
-                      <div className="absolute -left-28 top-1/2 -translate-y-1/2 pulse-arrow">
-                        <div className="flex items-center gap-2">
-                          <div className="bg-blue-500 text-white px-4 py-2 rounded-lg text-lg font-semibold whitespace-nowrap">
-                            {t.writeEmail}
-                          </div>
-                          <ArrowRight className="w-10 h-10 text-blue-600" />
-                        </div>
-                      </div>
-                    )}
-                  </div>
+             <div className="absolute left-full top-1/2 -translate-y-1/2 -mt-4 flex items-center gap-2 pulse-arrow pointer-events-none z-50">
+             <ArrowRight className="w-9 h-9 text-blue-600 rotate-180" />
+            <div className="bg-blue-500 text-white px-4 py-2 rounded-lg text-lg font-semibold whitespace-nowrap shadow-lg">
+            {t.writeEmail}
+        </div>
+       </div>
+  )}
+</div>
                   <div className="px-4 py-3 bg-blue-100 text-blue-700 rounded-lg font-semibold">
                     📥 {t.inbox}
                   </div>
