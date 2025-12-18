@@ -395,6 +395,7 @@ const mapsModule: Module = {
 
 // Module 4: Online Safety
 const safetyModule: Module = {
+  //The unique id for module 4.
   id: 'module-safety',
   titleEn: 'Online Safety',
   titleZh: '网络安全',
@@ -449,10 +450,10 @@ const safetyModule: Module = {
       id: 'lesson-safety-4',
       moduleId: 'module-safety',
       order: 4,
-      titleEn: 'Safe Online Shopping',
-      titleZh: '安全网上购物',
-      descriptionEn: 'Shop online securely',
-      descriptionZh: '安全地在线购物',
+      titleEn: 'Spotting Phishing Emails',
+      titleZh: '识别网络钓鱼邮件',
+      descriptionEn: 'Spot unusual emails',
+      descriptionZh: '识别异常邮件',
       contentType: 'tutorial',
       estimatedMinutes: 12,
       requiredScore: 80,

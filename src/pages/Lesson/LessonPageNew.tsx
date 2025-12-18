@@ -16,6 +16,12 @@ import GoogleSearchBasics from '../../components/simulations/module2/GoogleSearc
 import GoogleVoiceSearch from '../../components/simulations/module2/GoogleVoiceSearch';
 import GoogleFilterTabs from '../../components/simulations/module2/GoogleFilterTabs';
 
+//Module 4
+import { PasswordStrengthLesson } from '../../components/simulations/Safety/PasswordStrengthLesson.tsx';
+import { RecognizingScamsLesson } from '../../components/simulations/Safety/RecognizingScamsLesson';
+import { PrivacySettingsLesson } from '../../components/simulations/Safety/PrivacySettingsLesson';
+import { PhishingDetection } from '../../components/simulations/Safety/PhishingDetection';
+
 const LessonPageNew = () => {
   const { lessonId } = useParams<{ lessonId: string }>();
   const navigate = useNavigate();
@@ -92,6 +98,25 @@ const LessonPageNew = () => {
       return <GoogleFilterTabs onComplete={handleStepComplete} language={currentLang} />;
     }
 
+    //MODULE 4 (Online Safety)
+    if (lesson.id === 'lesson-safety-1'){
+      return <PasswordStrengthLesson onComplete={handleStepComplete} language={currentLang} />;
+
+    }
+
+    if (lesson.id === 'lesson-safety-2'){
+  return <RecognizingScamsLesson onComplete={handleStepComplete} language={currentLang} />;
+}
+
+  if (lesson.id === 'lesson-safety-3'){
+  return <PrivacySettingsLesson onComplete={handleStepComplete} language={currentLang} />;
+}
+
+    if (lesson.id === 'lesson-safety-4'){
+      return <PhishingDetection onComplete={handleStepComplete} language={currentLang} />;
+    }
+  
+
     // Default tutorial/practice content
     return (
       <div className="card w-full px-8 mx-auto max-w-screen-2xl">
@@ -164,7 +189,7 @@ const LessonPageNew = () => {
         {/* Progress Dots */}
         {lesson.steps && lesson.steps.length > 0 && (
           <div className="step-dots">
-            {lesson.steps.map((_, index) => (
+            {lesson.steps.map((_,index) => (
               <div
                 key={index}
                 className={`step-dot ${index === currentStep ? 'active' : ''} ${
