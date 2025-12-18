@@ -15,7 +15,7 @@ interface Email {
   redFlags: string[];
 }
 
-const PhishingDetection: React.FC<PhishingDetectionProps> = ({ onComplete, language }) => {
+export const PhishingDetection: React.FC<PhishingDetectionProps> = ({ onComplete, language }) => {
   const [currentRound, setCurrentRound] = useState(0);
   const [score, setScore] = useState(0);
   const [selectedEmail, setSelectedEmail] = useState<string | null>(null);
@@ -399,5 +399,3 @@ const PhishingDetection: React.FC<PhishingDetectionProps> = ({ onComplete, langu
     </div>
   );
 };
-
-export default PhishingDetection;

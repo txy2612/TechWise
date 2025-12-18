@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { ArrowLeft, CheckCircle, Lock, PlayCircle, Check, Play, RotateCcw, ArrowRight } from 'lucide-react';
 import { modules, getModuleById } from '../../data/modules';
 import { useProgress } from '../../contexts/ProgressContext';
+import { AnimatedCheckmark } from '../../components/common/AnimatedCheckmark';
 
 const ModuleOverview = () => {
   const { moduleId } = useParams<{ moduleId: string }>();
@@ -125,8 +126,8 @@ const ModuleOverview = () => {
                   {/* Status Icon */}
                   <div className="flex-shrink-0">
                     {completed ? (
-                      <div className="w-14 h-14 rounded-full bg-green-500 flex items-center justify-center shadow-md">
-                        <Check className="w-8 h-8 text-white" strokeWidth={3} />
+                      <div>
+                        <AnimatedCheckmark size="small" />
                       </div>
                     ) : locked ? (
                       <div className="w-14 h-14 rounded-full bg-gray-300 flex items-center justify-center">
