@@ -18,9 +18,9 @@ export default function ConnectWifi({ onComplete, onBack, language }: LessonProp
   const t = module5Lesson2Texts[language];
   const totalSteps = 4;
 
+  // ✅ Removed UM-Student5G, removed extra networks if you want it cleaner
   const networks: Network[] = [
     { ssid: 'Home_WiFi', signal: 3, secure: true },
-    { ssid: 'UM-Student5G', signal: 2, secure: true },
     { ssid: 'ZusCoffee', signal: 1, secure: false },
     { ssid: 'FreeAirport', signal: 0, secure: false },
   ];
@@ -33,8 +33,6 @@ export default function ConnectWifi({ onComplete, onBack, language }: LessonProp
 
   // Hints: only one "Click here" for Home_WiFi on step 0
   const [showHomeHint, setShowHomeHint] = useState(true);
-  // One "Click here" for the eye icon on step 1
-  const [showEyeHint, setShowEyeHint] = useState(true);
 
   const canConnect = useMemo(() => {
     if (!selected) return false;
@@ -43,11 +41,38 @@ export default function ConnectWifi({ onComplete, onBack, language }: LessonProp
   }, [selected, password]);
 
   const guideText = useMemo(() => {
-    if (step === 0) return 'Tap your Wi-Fi network.';
-    if (step === 1) return 'Enter password (if required).';
-    if (step === 2) return 'Connecting...';
-    return 'Connected!';
-  }, [step]);
+    if (step === 0) return language === 'en' ? 'Tap your Wi-Fi network.' : '点击你的 Wi-Fi 网络。';
+    if (step === 1) return language === 'en' ? 'Type your password, then tap Next.' : '输入密码，然后点击下一步。';
+    if (step === 2) return language === 'en' ? 'Connecting…' : '正在连接…';
+    return language === 'en' ? 'Connected!' : '已连接！';
+  }, [step, language]);
+
+  const wifiExplain = useMemo(() => {
+    if (language === 'en') {
+      return (
+        <>
+          <p className="font-bold text-xl md:text-2xl text-gray-900">What is Wi-Fi?</p>
+          <p className="mt-2 text-lg md:text-xl text-gray-800 leading-relaxed">
+            Wi-Fi is like invisible internet “air.” It lets your phone go online without using a cable.
+          </p>
+          <p className="mt-2 text-lg md:text-xl text-gray-800 leading-relaxed">
+            You can use it at home, cafés, or airports to watch videos, read news, and message family.
+          </p>
+        </>
+      );
+    }
+    return (
+      <>
+        <p className="font-bold text-xl md:text-2xl text-gray-900">什么是 Wi-Fi？</p>
+        <p className="mt-2 text-lg md:text-xl text-gray-800 leading-relaxed">
+          Wi-Fi 就像“看不见的网络空气”，让手机不用插线也能上网。
+        </p>
+        <p className="mt-2 text-lg md:text-xl text-gray-800 leading-relaxed">
+          你可以在家、咖啡店、机场使用它来看片、看新闻、和家人聊天。
+        </p>
+      </>
+    );
+  }, [language]);
 
   const handleConnect = () => {
     if (!canConnect) return;
@@ -81,7 +106,7 @@ export default function ConnectWifi({ onComplete, onBack, language }: LessonProp
         `}</style>
 
         <div className="card space-y-6 p-6 md:p-8">
-          {/* GUIDE BAR (same style as Lesson 1, allow 2 lines) */}
+          {/* GUIDE BAR */}
           <div className="flex items-start justify-between bg-blue-50 border-2 border-blue-300 rounded-2xl px-6 py-5">
             <p className="text-xl md:text-2xl font-semibold text-blue-900 leading-snug">
               <span className="font-bold">Guide:</span> <span className="font-medium">{guideText}</span>
@@ -102,28 +127,34 @@ export default function ConnectWifi({ onComplete, onBack, language }: LessonProp
 
           <h2 className="text-3xl md:text-4xl font-bold">{t.title}</h2>
 
-          {/* STEP TEXT CARD (bigger, elder-friendly) */}
-          {step !== 3 && (
-  <div className="bg-gray-100 rounded-2xl p-5 md:p-6">
-    <p className="text-lg md:text-xl">
-      {step === 0 && t.step0}
-      {step === 1 && t.step1}
-      {step === 2 && t.step2}
-    </p>
-  </div>
-)}
+          {/* Step 0: BIG Wi-Fi explanation box */}
+          {step === 0 && (
+            <div className="bg-white border-2 border-gray-200 rounded-2xl p-5 md:p-6 shadow-sm">
+              {wifiExplain}
+            </div>
+          )}
 
-          {/* STEP 0: choose network (only one hint on Home_WiFi) */}
+          {/* STEP TEXT CARD (elder-friendly) */}
+          {step !== 3 && (
+            <div className="bg-gray-100 rounded-2xl p-5 md:p-6">
+              <p className="text-lg md:text-xl">
+                {step === 0 && t.step0}
+                {step === 1 && t.step1}
+                {step === 2 && t.step2}
+              </p>
+            </div>
+          )}
+
+          {/* STEP 0: choose network */}
           {step === 0 && (
             <div className="space-y-4">
               {networks.map((net) => {
                 const isHome = net.ssid === 'Home_WiFi';
                 return (
-                  <div key={net.ssid} className="relative">
-                    {/* Only show ONE "Click here" on Home_WiFi */}
+                  <div key={net.ssid} className="relative overflow-visible">
                     {isHome && showHomeHint && (
                       <div
-                        className="absolute -top-2 left-1/2 px-6 py-2 rounded-xl text-white text-base md:text-lg font-semibold shadow-lg whitespace-nowrap"
+                        className="absolute -top-2 left-1/2 z-[60] px-6 py-2 rounded-xl text-white text-base md:text-lg font-semibold shadow-lg whitespace-nowrap"
                         style={{ background: '#2563eb', animation: 'softPulse 1.1s ease-in-out infinite' }}
                       >
                         Click here
@@ -141,7 +172,6 @@ export default function ConnectWifi({ onComplete, onBack, language }: LessonProp
                         setSelected(net);
                         setStep(1);
                         setShowHomeHint(false);
-                        setShowEyeHint(true);
                       }}
                     >
                       <div className="flex items-center gap-4">
@@ -167,85 +197,52 @@ export default function ConnectWifi({ onComplete, onBack, language }: LessonProp
           {/* STEP 1: Password */}
           {step === 1 && selected && (
             <div className="space-y-5">
-              {/* Selected network header */}
               <div className="flex items-center gap-4">
                 {signalIcon(selected.signal)}
                 <div>
                   <p className="text-2xl font-bold">{selected.ssid}</p>
-                  <p className="text-base text-gray-500">{language === 'en' ? 'Type any password to practice.' : '输入任意密码练习。'}</p>
+                  {/* ✅ removed redundant practice sentence */}
                 </div>
               </div>
 
-              {/* Password input (secure only) */}
               {selected.secure ? (
-                <>
-                  <div className="relative">
-                    <input
-                      type={showPwd ? 'text' : 'password'}
-                      placeholder={language === 'en' ? 'This is your password' : '这是你的密码'}
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      className="w-full border-2 border-gray-300 rounded-2xl px-5 py-5 pr-16 text-xl md:text-2xl focus:outline-none focus:ring-4 focus:ring-blue-200"
-                    />
+                <div className="relative">
+                  <input
+                    type={showPwd ? 'text' : 'password'}
+                    placeholder={language === 'en' ? 'Type your password' : '请输入你的密码'}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="w-full border-2 border-gray-300 rounded-2xl px-5 py-5 pr-16 text-xl md:text-2xl focus:outline-none focus:ring-4 focus:ring-blue-200"
+                  />
 
-                    {/* Eye "Reveal here" hint */}
-                    {showEyeHint && (
-                      <div
-                        className="absolute -top-1 right-8 px-6 py-2 rounded-xl text-white text-base md:text-lg font-semibold shadow-lg whitespace-nowrap"
-                        style={{ background: '#2563eb', animation: 'softPulse 1.1s ease-in-out infinite' }}
-                      >
-                        Type here
-                      </div>
-                    )}
+                  {/* ✅ removed “Type here” hint overlay */}
 
-                    <button
-                      type="button"
-                      className="absolute inset-y-0 right-0 px-5 flex items-center text-gray-600"
-                      onClick={() => {
-                        setShowPwd((v) => !v);
-                        setShowEyeHint(false);
-                      }}
-                      aria-label="Reveal password"
-                    >
-                      {showPwd ? <EyeOff className="w-7 h-7" /> : <Eye className="w-7 h-7" />}
-                    </button>
-                  </div>
-
-                  {/* (Optional) helper text below, but user wanted it like the blue box; we keep only the blue box above */}
-                </>
+                  <button
+                    type="button"
+                    className="absolute inset-y-0 right-0 px-5 flex items-center text-gray-600"
+                    onClick={() => setShowPwd((v) => !v)}
+                    aria-label={language === 'en' ? 'Show password' : '显示密码'}
+                  >
+                    {showPwd ? <EyeOff className="w-7 h-7" /> : <Eye className="w-7 h-7" />}
+                  </button>
+                </div>
               ) : (
                 <div className="bg-gray-100 rounded-2xl p-5 text-lg">
                   {language === 'en' ? 'No password needed for this network.' : '此网络不需要密码。'}
                 </div>
               )}
 
-              {/* Buttons row (matches screenshot) */}
-              <div className="flex gap-4 pt-2">
-                <button
-                  className="btn-secondary flex-1 py-5 text-xl md:text-2xl rounded-2xl"
-                  onClick={() => {
-                    setSelected(null);
-                    setPassword('');
-                    setShowPwd(false);
-                    setStep(0);
-                    setShowHomeHint(true);
-                    setShowEyeHint(true);
-                  }}
-                >
-                  {t.back}
-                </button>
-
-                <button
-                  className={[
-                    'btn-primary flex-1 py-5 text-xl md:text-2xl rounded-2xl',
-                    !canConnect || connecting ? 'opacity-50 cursor-not-allowed' : '',
-                  ].join(' ')}
-                  onClick={handleConnect}
-                  disabled={!canConnect || connecting}
-                >
-                  {connecting ? <Loader className="w-7 h-7 animate-spin inline-block" /> : t.next}
-                </button>
-              </div>
+              {/* ✅ removed the bottom Back button (only top Back remains) */}
+              <button
+                className={[
+                  'btn-primary w-full py-5 text-xl md:text-2xl rounded-2xl',
+                  !canConnect || connecting ? 'opacity-50 cursor-not-allowed' : '',
+                ].join(' ')}
+                onClick={handleConnect}
+                disabled={!canConnect || connecting}
+              >
+                {connecting ? <Loader className="w-7 h-7 animate-spin inline-block" /> : t.next}
+              </button>
             </div>
           )}
 

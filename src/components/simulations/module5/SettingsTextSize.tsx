@@ -1,5 +1,5 @@
 import { useMemo, useRef, useState } from 'react';
-import { Settings as SettingsIcon } from 'lucide-react';
+import { ArrowRight, Settings as SettingsIcon } from 'lucide-react';
 
 type LessonProps = {
   onComplete: () => void;
@@ -63,13 +63,15 @@ export default function SettingsPersonalization({ onComplete, onBack, language }
   const [step, setStep] = useState<0 | 1 | 2 | 3 | 4>(0);
   const [wallpaperId, setWallpaperId] = useState(WALLPAPERS[0].id);
   const [uploadedWallpaper, setUploadedWallpaper] = useState<string | null>(null);
-  const [textSize, setTextSize] = useState(18);
+
+  // ✅ Make default bigger so preview isn't tiny
+  const [textSize, setTextSize] = useState(22);
+
   const [fontStyle, setFontStyle] = useState<'sans' | 'serif' | 'mono'>('sans');
 
   const [showSettingsHint, setShowSettingsHint] = useState(true);
   const [showSizeHint, setShowSizeHint] = useState(true);
 
-  // For positioning the px bubble correctly
   const sliderRef = useRef<HTMLInputElement | null>(null);
 
   const guideText = useMemo(() => {
@@ -102,16 +104,12 @@ export default function SettingsPersonalization({ onComplete, onBack, language }
     else onComplete();
   };
 
-  // Bubble position as percentage across slider width
   const bubbleLeftPct = useMemo(() => {
     const pct = ((textSize - SLIDER_MIN) * 100) / (SLIDER_MAX - SLIDER_MIN);
     return Math.max(0, Math.min(100, pct));
   }, [textSize]);
 
-  // Optional: nudge bubble so it visually stays above the thumb on edges
   const bubbleTranslateX = useMemo(() => {
-    // moves bubble slightly left near the right edge and slightly right near the left edge
-    // range [-16px..+16px]
     const centerOffset = (bubbleLeftPct - 50) / 50; // [-1..1]
     return `${-centerOffset * 16}px`;
   }, [bubbleLeftPct]);
@@ -121,12 +119,17 @@ export default function SettingsPersonalization({ onComplete, onBack, language }
       <div className="w-full max-w-2xl">
         <style>{`
           @keyframes softPulse {
-            0% { transform: translate(-50%, 0) scale(1); }
-            50% { transform: translate(-50%, -2px) scale(1.04); }
-            100% { transform: translate(-50%, 0) scale(1); }
+            0%   { transform: translateY(0) scale(1); opacity: 1; }
+            50%  { transform: translateY(-2px) scale(1.04); opacity: 0.96; }
+            100% { transform: translateY(0) scale(1); opacity: 1; }
           }
 
-          /* Bigger thumb for elderly friendliness */
+          @keyframes iconPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.04); }
+            100% { transform: scale(1); }
+          }
+
           input[type="range"]::-webkit-slider-thumb{
             -webkit-appearance:none;
             appearance:none;
@@ -176,17 +179,30 @@ export default function SettingsPersonalization({ onComplete, onBack, language }
           {/* STEP 0 */}
           {step === 0 && (
             <div className="relative flex justify-center">
+              {/* ✅ Move hint to the SIDE + add arrow, keep it in front */}
               {showSettingsHint && (
-                <div
-                  className="absolute -top-6 left-1/2 px-6 py-2 rounded-xl text-white text-lg font-semibold shadow-lg"
-                  style={{ background: '#2563eb', animation: 'softPulse 1.2s infinite' }}
-                >
-                  Click here
+                <div className="absolute left-1/2 -translate-x-[190px] top-6 z-50 flex items-center gap-3">
+                  <div
+                    className="bg-blue-600 text-white text-lg font-semibold shadow-lg rounded-2xl px-5 py-3"
+                    style={{ animation: 'softPulse 1.2s ease-in-out infinite' }}
+                  >
+                    Click here
+                  </div>
+                  <ArrowRight
+                    className="w-10 h-10 text-blue-600"
+                    style={{ animation: 'softPulse 1.2s ease-in-out infinite' }}
+                  />
                 </div>
               )}
 
               <button
-                className="w-32 h-32 rounded-3xl border-2 bg-white flex flex-col items-center justify-center hover:scale-105 transition"
+                className={[
+                  'w-32 h-32 rounded-3xl border-2 bg-white flex flex-col items-center justify-center transition',
+                  'hover:scale-105',
+                  // ✅ Pulse / ring effect while hint is showing
+                  showSettingsHint ? 'ring-4 ring-blue-300 shadow-lg' : '',
+                ].join(' ')}
+                style={showSettingsHint ? { animation: 'iconPulse 1.2s ease-in-out infinite' } : undefined}
                 onClick={() => {
                   setShowSettingsHint(false);
                   setStep(1);
@@ -233,16 +249,14 @@ export default function SettingsPersonalization({ onComplete, onBack, language }
             <div className="space-y-6 relative">
               {showSizeHint && (
                 <div
-                  className="absolute -top-6 left-1/2 px-6 py-2 rounded-xl text-white text-lg shadow"
-                  style={{ background: '#2563eb', animation: 'softPulse 1.2s infinite' }}
+                  className="absolute -top-6 left-1/2 -translate-x-1/2 z-30 px-6 py-2 rounded-xl text-white text-lg shadow"
+                  style={{ background: '#2563eb', animation: 'softPulse 1.2s ease-in-out infinite' }}
                 >
                   Drag to the right →
                 </div>
               )}
 
-              {/* Slider + px bubble */}
               <div className="relative pt-8">
-                {/* px bubble */}
                 <div
                   className="absolute -top-2 z-10"
                   style={{
@@ -329,11 +343,12 @@ export default function SettingsPersonalization({ onComplete, onBack, language }
                   backgroundPosition: 'center',
                 }}
               >
-                <div className="h-full w-full flex flex-col items-center justify-center">
-                  <p className={`font-bold ${fontClass}`} style={{ fontSize: textSize }}>
+                <div className="h-full w-full flex flex-col items-center justify-center px-6 text-center">
+                  {/* ✅ Bigger preview typography */}
+                  <p className={`font-bold ${fontClass}`} style={{ fontSize: textSize + 6, lineHeight: 1.15 }}>
                     {t.previewHeader}
                   </p>
-                  <p className={fontClass} style={{ fontSize: textSize }}>
+                  <p className={fontClass} style={{ fontSize: textSize + 2, lineHeight: 1.25, marginTop: 10 }}>
                     {t.previewBody}
                   </p>
                 </div>

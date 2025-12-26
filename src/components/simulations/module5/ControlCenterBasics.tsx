@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import type { PointerEvent } from 'react';
 import { module5Lesson1Texts } from '../../../data/lessonTexts_module5';
-import { Lightbulb, Wifi, Sun, Hand } from 'lucide-react';
+import { Lightbulb, Wifi, Sun, Hand, ArrowDown } from 'lucide-react';
 
 type LessonProps = {
   onComplete: () => void;
@@ -10,6 +10,7 @@ type LessonProps = {
 };
 
 type Step = 0 | 1 | 2 | 3 | 4;
+type HoverTarget = 'flash' | 'wifi' | 'bright' | null;
 
 export default function ControlCenterBasics({ onComplete, onBack, language }: LessonProps) {
   const t = module5Lesson1Texts[language];
@@ -25,10 +26,13 @@ export default function ControlCenterBasics({ onComplete, onBack, language }: Le
   const [brightness, setBrightness] = useState(85);
   const [dragStartY, setDragStartY] = useState<number | null>(null);
 
-  // show hints until user interacts
+  // hints
   const [showFlashHint, setShowFlashHint] = useState(true);
   const [showWifiHint, setShowWifiHint] = useState(true);
   const [showBrightHint, setShowBrightHint] = useState(true);
+
+  // hover overlay target (for desktop mouse)
+  const [hovered, setHovered] = useState<HoverTarget>(null);
 
   // brightness overlay must affect EVERYTHING
   const overlayOpacity = useMemo(() => {
@@ -44,6 +48,14 @@ export default function ControlCenterBasics({ onComplete, onBack, language }: Le
     return t.step4;
   }, [step, t]);
 
+  // guide microcopy adjustments (Version 3)
+  const guideLine = useMemo(() => {
+    if (step === 1) return language === 'en' ? 'Tap this icon to turn on Flashlight.' : '点击此图标开启手电筒。';
+    if (step === 2) return language === 'en' ? 'Tap this icon to turn Wi-Fi on/off.' : '点击此图标开启/关闭 Wi-Fi。';
+    if (step === 3) return language === 'en' ? 'Drag the slider to change brightness.' : '拖动滑块调整屏幕亮度。';
+    return stepText;
+  }, [step, stepText, language]);
+
   // allow actions only after reaching the step
   const canTapFlashlight = opened && step >= 1;
   const canTapWifi = opened && step >= 2;
@@ -57,7 +69,7 @@ export default function ControlCenterBasics({ onComplete, onBack, language }: Le
   const handlePointerUp = (e: PointerEvent<HTMLDivElement>) => {
     if (dragStartY != null) {
       const deltaY = e.clientY - dragStartY;
-      if (!opened && deltaY > 50) {
+      if (!opened && deltaY > 55) {
         setOpened(true);
         if (step === 0) setStep(1);
       }
@@ -65,46 +77,48 @@ export default function ControlCenterBasics({ onComplete, onBack, language }: Le
     setDragStartY(null);
   };
 
-  // optional: if user taps Next at step0, open anyway
   const openControlCenter = () => {
     if (!opened) setOpened(true);
     if (step === 0) setStep(1);
   };
 
-  // when user interacts, hide the hint for that control
+  // reset “show hint” when step changes
   useEffect(() => {
     if (step !== 1) setShowFlashHint(true);
     if (step !== 2) setShowWifiHint(true);
     if (step !== 3) setShowBrightHint(true);
+    setHovered(null);
   }, [step]);
 
   return (
     <div className="min-h-screen bg-gray-50 p-6 flex justify-center">
       <div className="w-full max-w-2xl">
-        {/* Local styles for slider thumb + smooth hint pulse + home screen icons */}
         <style>{`
-          /* Make range thumb larger (Chrome/Safari/Edge) */
+        @keyframes swipeDownBig {
+  0%   { transform: translateY(0); }
+  50%  { transform: translateY(50px); } /* ← increase amplitude here */
+  100% { transform: translateY(0); }
+}
+          /* Slider thumb bigger */
           input[type="range"]::-webkit-slider-thumb {
             -webkit-appearance: none;
             appearance: none;
-            width: 28px;
-            height: 28px;
+            width: 30px;
+            height: 30px;
             border-radius: 9999px;
             background: #1d4ed8;
             border: 4px solid #ffffff;
             box-shadow: 0 6px 16px rgba(0,0,0,0.18);
             cursor: pointer;
-            margin-top: -12px; /* aligns thumb with 4px track */
+            margin-top: -12px;
           }
           input[type="range"]::-webkit-slider-runnable-track {
             height: 8px;
             border-radius: 9999px;
           }
-
-          /* Firefox */
           input[type="range"]::-moz-range-thumb {
-            width: 28px;
-            height: 28px;
+            width: 30px;
+            height: 30px;
             border-radius: 9999px;
             background: #1d4ed8;
             border: 4px solid #ffffff;
@@ -116,33 +130,33 @@ export default function ControlCenterBasics({ onComplete, onBack, language }: Le
             border-radius: 9999px;
           }
 
-          /* Smooth pulse (not flicker) for hint boxes */
+          /* Smooth pulse for blue badge */
           @keyframes softPulse {
-            0%   { transform: translate(-50%, 0) scale(1);   opacity: 1; }
-            50%  { transform: translate(-50%, -2px) scale(1.03); opacity: 0.95; }
-            100% { transform: translate(-50%, 0) scale(1);   opacity: 1; }
+            0%   { transform: translate(-50%, 0) scale(1); opacity: 1; }
+            50%  { transform: translate(-50%, -2px) scale(1.04); opacity: 0.96; }
+            100% { transform: translate(-50%, 0) scale(1); opacity: 1; }
           }
 
-          /* Home screen: app icon bounce (subtle) */
-          @keyframes iconFloat {
-            0% { transform: translateY(0); }
-            50% { transform: translateY(-2px); }
-            100% { transform: translateY(0); }
+          /* Slow drag demo (hand left <-> right) */
+          @keyframes dragDemo {
+            0%   { transform: translateX(-24px); opacity: 0.9; }
+            50%  { transform: translateX(24px);  opacity: 1; }
+            100% { transform: translateX(-24px); opacity: 0.9; }
           }
         `}</style>
 
         <div className="card space-y-6 p-6 md:p-8">
-          {/* GUIDE BAR (allow 2 lines) */}
+          {/* GUIDE BAR (2 lines allowed) */}
           <div className="flex items-start justify-between bg-blue-50 border-2 border-blue-300 rounded-2xl px-6 py-5">
             <p className="text-xl md:text-2xl font-semibold text-blue-900 leading-snug">
-              <span className="font-bold">Guide:</span> <span className="font-medium">{stepText}</span>
+              <span className="font-bold">Guide:</span> <span className="font-medium">{guideLine}</span>
             </p>
             <div className="ml-4 bg-blue-600 text-white rounded-full px-5 py-2 text-lg font-bold shrink-0">
               {step + 1}/{totalSteps}
             </div>
           </div>
 
-          {/* BACK ARROW ONLY */}
+          {/* BACK ARROW ONLY (no duplicates) */}
           <button
             onClick={onBack ?? (() => window.history.back())}
             className="flex items-center gap-3 text-lg md:text-xl text-gray-700 hover:text-blue-700"
@@ -161,144 +175,132 @@ export default function ControlCenterBasics({ onComplete, onBack, language }: Le
           >
             {/* ===== CONTENT (clickable) ===== */}
             <div className="relative z-10 p-8">
-              {/* CLOSED STATE: HOME SCREEN (Step 0) */}
+              {/* Step0: home screen simulation */}
               {!opened && step === 0 && (
-                <div className="relative">
-                  {/* wallpaper */}
-                  <div className="absolute inset-0 rounded-[28px] bg-gradient-to-br from-sky-200 via-indigo-100 to-pink-100" />
-
+                <div className="relative rounded-[28px] overflow-hidden border bg-gradient-to-br from-sky-100 via-indigo-100 to-rose-100 p-6">
                   {/* status bar */}
-                  <div className="relative z-10 flex items-center justify-between px-2 pt-1 text-sm text-gray-700">
-                    <span className="font-semibold">9:41</span>
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs">LTE</span>
-                      <span className="inline-block w-5 h-2 rounded-full border border-gray-500 relative overflow-hidden">
-                        <span className="absolute right-0 top-0 h-full w-3 bg-gray-700" />
-                      </span>
-                    </div>
+                  <div className="flex items-center justify-between text-gray-700 font-semibold">
+                    <span>9:41</span>
+                    <span className="text-sm">LTE ▮▮</span>
                   </div>
 
-                  {/* app grid */}
-                  <div className="relative z-10 mt-6 grid grid-cols-4 gap-5 px-4 pb-24">
+                  {/* top icons */}
+                  <div className="mt-6 grid grid-cols-4 gap-6">
                     {[
-                      { name: language === 'en' ? 'Gallery' : '相册', bg: 'bg-rose-500' },
-                      { name: language === 'en' ? 'Settings' : '设置', bg: 'bg-gray-700' },
-                      { name: language === 'en' ? 'Calendar' : '日历', bg: 'bg-red-500' },
-                      { name: language === 'en' ? 'Camera' : '相机', bg: 'bg-zinc-900' },
-                      { name: language === 'en' ? 'Phone' : '电话', bg: 'bg-green-600' },
-                      { name: language === 'en' ? 'Messages' : '信息', bg: 'bg-emerald-500' },
-                      { name: language === 'en' ? 'Maps' : '地图', bg: 'bg-blue-600' },
-                      { name: language === 'en' ? 'Clock' : '时钟', bg: 'bg-indigo-600' },
-                    ].map((app, i) => (
-                      <div
-                        key={app.name}
-                        className="flex flex-col items-center gap-2 select-none"
-                        style={{ animation: `iconFloat 3.2s ease-in-out ${i * 0.08}s infinite` }}
-                      >
-                        <div className={`w-14 h-14 rounded-2xl ${app.bg} shadow-md`} />
-                        <div className="text-xs font-medium text-gray-800">{app.name}</div>
+                      { label: 'Gallery', bg: 'bg-rose-400' },
+                      { label: 'Settings', bg: 'bg-slate-800' },
+                      { label: 'Calendar', bg: 'bg-red-500' },
+                      { label: 'Camera', bg: 'bg-black' },
+                      { label: 'Phone', bg: 'bg-green-600' },
+                      { label: 'Messages', bg: 'bg-emerald-500' },
+                      { label: 'Maps', bg: 'bg-blue-600' },
+                      { label: 'Clock', bg: 'bg-indigo-600' },
+                    ].map((app) => (
+                      <div key={app.label} className="flex flex-col items-center">
+                        <div className={`w-16 h-16 rounded-2xl ${app.bg} shadow`} />
+                        <div className="mt-2 text-sm font-semibold text-gray-800">{app.label}</div>
                       </div>
                     ))}
                   </div>
 
-                  {/* dock */}
-                  <div className="absolute left-4 right-4 bottom-4 z-10 rounded-3xl bg-white/60 backdrop-blur border border-white/60 px-6 py-4">
-                    <div className="grid grid-cols-4 gap-6">
-                      {[
-                        { bg: 'bg-green-600', label: language === 'en' ? 'Phone' : '电话' },
-                        { bg: 'bg-emerald-500', label: language === 'en' ? 'Chat' : '信息' },
-                        { bg: 'bg-blue-600', label: language === 'en' ? 'Browser' : '浏览器' },
-                        { bg: 'bg-purple-600', label: language === 'en' ? 'Music' : '音乐' },
-                      ].map((d) => (
-                        <div key={d.label} className="flex flex-col items-center gap-2">
-                          <div className={`w-14 h-14 rounded-2xl ${d.bg} shadow-md`} />
-                        </div>
-                      ))}
+                  {/* swipe instruction box (bigger + longer distance feel) */}
+                  <div className="mt-8 flex items-center justify-center">
+                    <div className="relative w-full max-w-md bg-white/70 backdrop-blur border-2 border-white rounded-3xl px-8 py-6 shadow">
+                      <div className="text-center text-xl md:text-2xl font-bold text-gray-900">
+                        Swipe down to open
+                        <br />
+                        Control Center
+                      </div>
+
+                      {/* hand + downward arrow */}
+<div className="absolute -top-40 left-1/2 -translate-x-1/2 flex flex-col items-center z-30">
+  <Hand
+    className="w-14 h-14 text-gray-500"
+    style={{ animation: 'swipeDownBig 1.8s ease-in-out infinite' }}
+  />
+  <ArrowDown
+    className="mt-1 w-8 h-8 text-gray-600"
+    style={{ animation: 'swipeDownBig 1.8s ease-in-out infinite' }}
+  />
+</div>
                     </div>
                   </div>
 
-                  {/* swipe hint overlay */}
-                  <Hand className="absolute top-16 left-[45%] w-14 h-14 text-gray-500 animate-bounce z-20" />
-                  <div className="absolute top-40 left-1/2 -translate-x-1/2 -translate-y-1/4 z-20 bg-white/80 backdrop-blur border border-white/70 rounded-2xl px-6 py-3 shadow-lg">
-                    <p className="text-lg md:text-xl text-gray-800 font-semibold text-center">
-                      {language === 'en' ? 'Swipe down to open Control Center' : '向下滑动打开控制中心'}
-                    </p>
-                  </div>
-
-                
+                  {/* IMPORTANT: removed the extra bottom text (your request) */}
                 </div>
               )}
 
-              {/* OPENED STATE: CONTROL CENTER */}
+              {/* Opened content */}
               {opened && (
                 <div className="grid grid-cols-2 gap-6">
                   {/* FLASHLIGHT */}
                   <div className="relative">
-                    {step === 1 && showFlashHint && (
+                    {/* hover overlay on flashlight */}
+                    {(step === 1 && (showFlashHint || hovered === 'flash')) && (
                       <div
-                        className="absolute -top-2 left-1/2 px-6 py-2 rounded-xl text-white text-base md:text-lg font-semibold shadow-lg"
-                        style={{
-                          background: '#2563eb',
-                          animation: 'softPulse 1.1s ease-in-out infinite',
-                        }}
-                      >
-                        Click here
-                      </div>
+  className="absolute top12 left-1/2 -translate-x-1/2 z-[999] px-6 py-2 rounded-xl
+             text-white text-base md:text-lg font-semibold shadow-lg pointer-events-none"
+  style={{ background: '#2563eb', animation: 'softPulse 1.2s ease-in-out infinite' }}
+>
+  Click here
+</div>
                     )}
 
                     <button
                       disabled={!canTapFlashlight}
+                      onMouseEnter={() => canTapFlashlight && setHovered('flash')}
+                      onMouseLeave={() => setHovered(null)}
                       className={[
-                        "w-full rounded-2xl border-2 p-7 flex flex-col items-center transition-all",
-                        canTapFlashlight ? "hover:scale-[1.02]" : "opacity-50 cursor-not-allowed",
-                        flashOn ? "bg-yellow-50 border-yellow-300" : "bg-white border-gray-200",
-                        step === 1 && showFlashHint ? "ring-4 ring-blue-200" : ""
-                      ].join(" ")}
+                        'w-full rounded-2xl border-2 p-7 flex flex-col items-center transition-all',
+                        canTapFlashlight ? 'hover:scale-[1.02]' : 'opacity-50 cursor-not-allowed',
+                        flashOn ? 'bg-yellow-50 border-yellow-300' : 'bg-white border-gray-200',
+                        step === 1 ? 'ring-4 ring-blue-200' : '',
+                      ].join(' ')}
                       onClick={() => {
                         if (!canTapFlashlight) return;
-                        setFlashOn(v => !v);
+                        setFlashOn((v) => !v);
                         setShowFlashHint(false);
                         if (step <= 1) setStep(2);
                       }}
                     >
-                      <Lightbulb className={`w-14 h-14 mb-3 ${flashOn ? "text-yellow-500" : "text-gray-400"}`} />
+                      <Lightbulb className={`w-14 h-14 mb-3 ${flashOn ? 'text-yellow-500' : 'text-gray-400'}`} />
                       <span className="text-xl font-semibold">{t.flashlight}</span>
-                      <span className="text-lg text-gray-600 mt-1">{flashOn ? "ON" : "OFF"}</span>
+                      <span className="text-lg text-gray-600 mt-1">{flashOn ? 'ON' : 'OFF'}</span>
                     </button>
                   </div>
 
                   {/* WIFI */}
                   <div className="relative">
-                    {step === 2 && showWifiHint && (
+                    {(step === 2 && (showWifiHint || hovered === 'wifi')) && (
                       <div
-                        className="absolute -top-2 left-1/2 px-6 py-2 rounded-xl text-white text-base md:text-lg font-semibold shadow-lg"
-                        style={{
-                          background: '#2563eb',
-                          animation: 'softPulse 1.1s ease-in-out infinite',
-                        }}
-                      >
-                        Click here
-                      </div>
+  className="absolute top12 left-1/2 -translate-x-1/2 z-[999] px-6 py-2 rounded-xl
+             text-white text-base md:text-lg font-semibold shadow-lg pointer-events-none"
+  style={{ background: '#2563eb', animation: 'softPulse 1.2s ease-in-out infinite' }}
+>
+  Click here
+</div>
                     )}
 
                     <button
                       disabled={!canTapWifi}
+                      onMouseEnter={() => canTapWifi && setHovered('wifi')}
+                      onMouseLeave={() => setHovered(null)}
                       className={[
-                        "w-full rounded-2xl border-2 p-7 flex flex-col items-center transition-all",
-                        canTapWifi ? "hover:scale-[1.02]" : "opacity-50 cursor-not-allowed",
-                        wifiOn ? "bg-blue-50 border-blue-300" : "bg-white border-gray-200",
-                        step === 2 && showWifiHint ? "ring-4 ring-blue-200" : ""
-                      ].join(" ")}
+                        'w-full rounded-2xl border-2 p-7 flex flex-col items-center transition-all',
+                        canTapWifi ? 'hover:scale-[1.02]' : 'opacity-50 cursor-not-allowed',
+                        wifiOn ? 'bg-blue-50 border-blue-300' : 'bg-white border-gray-200',
+                        step === 2 ? 'ring-4 ring-blue-200' : '',
+                      ].join(' ')}
                       onClick={() => {
                         if (!canTapWifi) return;
-                        setWifiOn(v => !v);
+                        setWifiOn((v) => !v);
                         setShowWifiHint(false);
                         if (step <= 2) setStep(3);
                       }}
                     >
-                      <Wifi className={`w-14 h-14 mb-3 ${wifiOn ? "text-blue-600" : "text-gray-400"}`} />
+                      <Wifi className={`w-14 h-14 mb-3 ${wifiOn ? 'text-blue-600' : 'text-gray-400'}`} />
                       <span className="text-xl font-semibold">{t.wifi}</span>
-                      <span className="text-lg text-gray-600 mt-1">{wifiOn ? "ON" : "OFF"}</span>
+                      <span className="text-lg text-gray-600 mt-1">{wifiOn ? 'ON' : 'OFF'}</span>
                     </button>
                   </div>
 
@@ -307,12 +309,9 @@ export default function ControlCenterBasics({ onComplete, onBack, language }: Le
                     {step === 3 && showBrightHint && (
                       <div
                         className="absolute -top-12 left-1/2 px-6 py-2 rounded-xl text-white text-base md:text-lg font-semibold shadow-lg whitespace-nowrap"
-                        style={{
-                          background: '#2563eb',
-                          animation: 'softPulse 1.1s ease-in-out infinite',
-                        }}
+                        style={{ background: '#2563eb', animation: 'softPulse 1.2s ease-in-out infinite' }}
                       >
-                        Drag to the right →
+                        Drag slowly →
                       </div>
                     )}
 
@@ -350,16 +349,27 @@ export default function ControlCenterBasics({ onComplete, onBack, language }: Le
                         {brightness}%
                       </div>
                     </div>
-                  </div>
-                </div>
-              )}
 
-              {/* If closed but step moved (edge case), show simple message */}
-              {!opened && step !== 0 && (
-                <div className="text-center py-14">
-                  <p className="text-xl md:text-2xl font-medium text-gray-900">
-                    {language === 'en' ? 'Swipe down to open Control Center.' : '向下滑动打开控制中心。'}
-                  </p>
+                    {/* NEW: slow drag demo icon under slider (Version 3 request) */}
+                    {step === 3 && showBrightHint && (
+                      <div className="mt-6 flex items-center justify-center">
+                        <div className="relative w-full max-w-sm h-14 rounded-2xl border bg-blue-50">
+                          <div className="absolute left-1/2 top-1/2 -translate-y-1/2">
+                            <Hand
+                              className="w-10 h-10 text-blue-600"
+                              style={{ animation: 'dragDemo 2.6s ease-in-out infinite' }}
+                            />
+                          </div>
+                          <div className="absolute left-4 top-1/2 -translate-y-1/2 text-blue-800 font-semibold">
+                            ←
+                          </div>
+                          <div className="absolute right-4 top-1/2 -translate-y-1/2 text-blue-800 font-semibold">
+                            →
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 </div>
               )}
             </div>
@@ -367,10 +377,7 @@ export default function ControlCenterBasics({ onComplete, onBack, language }: Le
             {/* ===== BRIGHTNESS OVERLAY ABOVE EVERYTHING (does not block clicks) ===== */}
             <div
               className="absolute inset-0 z-20 pointer-events-none transition-opacity duration-300"
-              style={{
-                backgroundColor: 'black',
-                opacity: overlayOpacity,
-              }}
+              style={{ backgroundColor: 'black', opacity: overlayOpacity }}
             />
           </div>
 
@@ -378,19 +385,14 @@ export default function ControlCenterBasics({ onComplete, onBack, language }: Le
           <button
             className="btn-primary w-full py-5 text-xl md:text-2xl font-semibold rounded-2xl"
             onClick={() => {
-              // step0: open first
               if (!opened) {
                 openControlCenter();
                 return;
               }
-
-              // finished
               if (step >= 4) {
                 onComplete();
                 return;
               }
-
-              // advance
               setStep((s) => (s + 1) as Step);
             }}
           >
