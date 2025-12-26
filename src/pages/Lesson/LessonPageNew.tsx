@@ -1,9 +1,11 @@
+
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { getLessonById } from '../../data/modules';
 import { useProgress } from '../../contexts/ProgressContext';
+import Quiz from '../../components/Quiz';
 
 // Import lesson simulations
 //Module 1
@@ -24,6 +26,7 @@ const LessonPageNew = () => {
   const currentLang = i18n.language as 'en' | 'zh';
 
   const [currentStep, setCurrentStep] = useState(0);
+  const [showQuizIntro, setShowQuizIntro] = useState(false);
   const [showQuiz, setShowQuiz] = useState(false);
 
   const lessonData = getLessonById(lessonId || '');
@@ -44,11 +47,11 @@ const LessonPageNew = () => {
   const { module, lesson } = lessonData;
 
   const handleStepComplete = () => {
-    // Move to next step or show quiz
+    // Move to next step or show quiz intro
     if (currentStep < (lesson.steps?.length || 0) - 1) {
       setCurrentStep(currentStep + 1);
     } else {
-      setShowQuiz(true);
+      setShowQuizIntro(true);
     }
   };
 
@@ -58,6 +61,21 @@ const LessonPageNew = () => {
     } else {
       navigate(`/module/${module.id}`);
     }
+  };
+
+  const handleStartQuiz = () => {
+    setShowQuizIntro(false);
+    setShowQuiz(true);
+  };
+
+  // NEW: Handle skip quiz
+  const handleSkipQuiz = () => {
+    // Mark lesson as complete with 0 points
+    updateProgress({ 
+      completedLessons: [...progress.completedLessons, lesson.id],
+      totalPoints: progress.totalPoints || 0  // No quiz points added
+    });
+    navigate(`/module/${module.id}`);
   };
 
   // Render appropriate simulation/content based on lesson type
@@ -124,27 +142,70 @@ const LessonPageNew = () => {
     );
   };
 
+  // QUIZ INTRO SCREEN (UPDATED WITH SKIP BUTTON)
+  if (showQuizIntro) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-6">
+        <div className="max-w-2xl w-full bg-white rounded-3xl shadow-lg p-12 text-center">
+          <div className="text-8xl mb-6">📝</div>
+          <h2 className="text-4xl font-bold text-gray-900 mb-4">
+            {currentLang === 'en' ? 'Lesson Complete!' : '课程完成！'}
+          </h2>
+          <p className="text-2xl text-gray-600 mb-4">
+            {currentLang === 'en' 
+              ? 'Ready to test what you learned?' 
+              : '准备测试您学到的知识了吗？'}
+          </p>
+          <p className="text-xl text-gray-500 mb-10">
+            {currentLang === 'en'
+              ? `${lesson.quiz?.questions?.length || 0} quick questions`
+              : `${lesson.quiz?.questions?.length || 0} 个快速问题`}
+          </p>
+          
+          {/* Primary Button: Start Quiz */}
+          <button
+            onClick={handleStartQuiz}
+            className="w-full py-5 px-8 bg-blue-600 hover:bg-blue-700 text-white text-2xl font-bold rounded-xl transition-colors shadow-lg mb-4"
+          >
+            {currentLang === 'en' ? 'Start Quiz' : '开始测验'}
+          </button>
+
+          {/* Secondary Button: Skip Quiz */}
+          <button
+            onClick={handleSkipQuiz}
+            className="w-full py-4 px-6 bg-gray-100 hover:bg-gray-200 text-gray-700 text-lg font-semibold rounded-xl transition-colors"
+          >
+            {currentLang === 'en' ? 'Skip Quiz' : '跳过测验'}
+          </button>
+
+          {/* Info Text */}
+          <p className="text-lg text-gray-500 mt-4">
+            {currentLang === 'en'
+              ? 'Skipping the quiz will complete the lesson but you won\'t earn quiz points'
+              : '跳过测验将完成课程，但您不会获得测验积分'}
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  // QUIZ VIEW
   if (showQuiz) {
     return (
       <div className="min-h-screen bg-gray-50 p-6">
-        <div className="w-full px-8 mx-auto max-w-screen-2xl">
-          <div className="card">
-            <h2 className="text-senior-xl font-bold text-gray-900 mb-4">{t('quiz')}</h2>
-            <p className="text-senior-base text-gray-600 mb-6">
-              {t('quizPlaceholder')}
-            </p>
-            <button
-              onClick={() => {
-                // Mark lesson as complete
-                updateProgress({ completedLessons: [...progress.completedLessons, lesson.id] });
-                navigate(`/module/${module.id}`);
-              }}
-              className="btn-primary w-full"
-            >
-              {t('completeLesson')}
-            </button>
-          </div>
-        </div>
+        <Quiz
+          quiz={lesson.quiz}
+          moduleId={module.id}
+          onComplete={(score, points) => {
+            // Mark lesson as complete with quiz points
+            updateProgress({ 
+              completedLessons: [...progress.completedLessons, lesson.id],
+              totalPoints: (progress.totalPoints || 0) + points
+            });
+            navigate(`/module/${module.id}`);
+          }}
+          language={currentLang}
+        />
       </div>
     );
   }
@@ -184,11 +245,11 @@ const LessonPageNew = () => {
             {currentLang === 'en' ? module.titleEn : module.titleZh}
           </p>
           
-          {/* Skip Button - Bigger and More Prominent */}
+          {/* Skip Lesson Button */}
           <button
             onClick={() => {
               if (confirm(t('skipLesson'))) {
-                setShowQuiz(true);
+                setShowQuizIntro(true);
               }
             }}
             className="mt-4 px-6 py-3 text-senior-base text-blue-600 hover:text-blue-800 hover:bg-blue-50 border-2 border-blue-300 rounded-lg font-semibold transition-all"
