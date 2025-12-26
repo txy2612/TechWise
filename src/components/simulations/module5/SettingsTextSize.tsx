@@ -178,13 +178,11 @@ export default function SettingsPersonalization({ onComplete, onBack, language }
 
           {/* STEP 0 */}
           {step === 0 && (
-            <div className="relative flex justify-center">
-              {/* ✅ Move hint to the SIDE + add arrow, keep it in front */}
+            <div className="relative flex justify-center">              
               {showSettingsHint && (
-                <div className="absolute left-1/2 -translate-x-[190px] top-6 z-50 flex items-center gap-3">
+                <div className="absolute left-1/2 -translate-x-[240px] top-6 z-50 flex items-center gap-3">
                   <div
                     className="bg-blue-600 text-white text-lg font-semibold shadow-lg rounded-2xl px-5 py-3"
-                    style={{ animation: 'softPulse 1.2s ease-in-out infinite' }}
                   >
                     Click here
                   </div>
@@ -249,7 +247,7 @@ export default function SettingsPersonalization({ onComplete, onBack, language }
             <div className="space-y-6 relative">
               {showSizeHint && (
                 <div
-                  className="absolute -top-6 left-1/2 -translate-x-1/2 z-30 px-6 py-2 rounded-xl text-white text-lg shadow"
+                  className="absolute -top-6 right-2 -translate-x-1/2 z-30 px-6 py-2 rounded-xl text-white text-lg shadow"
                   style={{ background: '#2563eb', animation: 'softPulse 1.2s ease-in-out infinite' }}
                 >
                   Drag to the right →

@@ -8,21 +8,32 @@ type LessonProps = {
   language: 'en' | 'zh';
 };
 
-type Mode = 'idle' | 'holding' | 'edit' | 'success';
+type Mode = 'idle' | 'holding' | 'edit' | 'removing' | 'removed' | 'success';
 
 export default function ManageAppsStorage({ onComplete, onBack, language }: LessonProps) {
   const t = module5Lesson4Texts[language];
   const totalSteps = 4;
 
   const [mode, setMode] = useState<Mode>('idle');
-  const [installed, setInstalled] = useState(true); // App 1 installed?
+
+  // App state
+  const [installed, setInstalled] = useState(true);
+
+  // Storage state
   const [storageUsed, setStorageUsed] = useState(70);
+
+  // Hint for quick tap
   const [showHint, setShowHint] = useState(false);
+
+  // For the disappearing animation (tile 1)
+  const [removingApp, setRemovingApp] = useState(false);
 
   const timerRef = useRef<number | null>(null);
 
   const handlePressStart = () => {
     if (!installed) return;
+    if (mode !== 'idle') return;
+
     setMode('holding');
 
     timerRef.current = window.setTimeout(() => {
@@ -49,10 +60,32 @@ export default function ManageAppsStorage({ onComplete, onBack, language }: Less
     setMode('idle');
   };
 
+  /**
+   * ✅ NEW uninstall sequence (2 screens):
+   * 1) removing: tile animates out + storage reduces simultaneously
+   * 2) removed: empty slot visible (NO popup yet)
+   * 3) success: popup overlay is LAST screen
+   */
   const uninstallApp = () => {
-    setInstalled(false);
+    if (!installed) return;
+
+    setMode('removing');
+    setRemovingApp(true);
+
+    // Storage reduces immediately (bar animates due to transition)
     setStorageUsed((s) => Math.max(0, s - 20));
-    setMode('success');
+
+    // After tile disappear animation ends -> show "app disappeared" screen (empty slot)
+    window.setTimeout(() => {
+      setInstalled(false);
+      setRemovingApp(false);
+      setMode('removed');
+    }, 650);
+
+    // Then popup as LAST screen
+    window.setTimeout(() => {
+      setMode('success');
+    }, 1250);
   };
 
   const handleDone = () => {
@@ -65,14 +98,18 @@ export default function ManageAppsStorage({ onComplete, onBack, language }: Less
   const guideText = useMemo(() => {
     if (mode === 'idle' || mode === 'holding') return t.instruction;
     if (mode === 'edit') return t.editMode;
+    if (mode === 'removing') return language === 'en' ? 'Removing app…' : '正在删除应用…';
+    if (mode === 'removed') return language === 'en' ? 'App removed.' : '应用已删除。';
     return t.success;
-  }, [mode, t]);
+  }, [mode, t, language]);
 
   const stepNumber = useMemo(() => {
+    // 1: long press, 2: edit mode, 3: app disappears, 4: popup success
     if (mode === 'idle' || mode === 'holding') return 1;
     if (mode === 'edit') return 2;
-    if (mode === 'success') return 3;
-    return 4;
+    if (mode === 'removing' || mode === 'removed') return 3;
+    if (mode === 'success') return 4;
+    return 1;
   }, [mode]);
 
   return (
@@ -87,6 +124,13 @@ export default function ManageAppsStorage({ onComplete, onBack, language }: Less
           @keyframes wiggle {
             0%, 100% { transform: rotate(-1deg); }
             50% { transform: rotate(1deg); }
+          }
+
+          /* ✅ Tile disappears */
+          @keyframes appDisappear {
+            0%   { transform: scale(1); opacity: 1; filter: blur(0px); }
+            70%  { transform: scale(0.92); opacity: 0.35; filter: blur(0.5px); }
+            100% { transform: scale(0.86); opacity: 0; filter: blur(1px); }
           }
         `}</style>
 
@@ -122,8 +166,7 @@ export default function ManageAppsStorage({ onComplete, onBack, language }: Less
 
           {/* Phone UI */}
           <div className="relative border-2 rounded-[28px] bg-white shadow-xl p-7 overflow-hidden">
-            {/* ✅ Removed blue bubble: "Press & hold 2 seconds"
-                Keep only the hand icon as a subtle cue */}
+            {/* subtle cue only in idle */}
             {mode === 'idle' && installed && (
               <HandIcon className="absolute top-10 left-10 w-10 h-10 text-gray-400 animate-bounce" />
             )}
@@ -148,23 +191,27 @@ export default function ManageAppsStorage({ onComplete, onBack, language }: Less
                 }
 
                 const shouldPulseTarget = (mode === 'idle' || mode === 'holding') && isTarget && installed;
+                const targetRemovingNow = isTarget && installed && mode === 'removing' && removingApp;
 
                 return (
                   <button
                     key={idx}
-                    onMouseDown={isTarget ? handlePressStart : undefined}
-                    onMouseUp={isTarget ? handlePressEnd : undefined}
-                    onMouseLeave={isTarget ? handlePressEnd : undefined}
-                    onTouchStart={isTarget ? handlePressStart : undefined}
-                    onTouchEnd={isTarget ? handlePressEnd : undefined}
-                    disabled={isTarget ? !installed : false}
+                    onMouseDown={isTarget && mode === 'idle' ? handlePressStart : undefined}
+                    onMouseUp={isTarget && mode === 'holding' ? handlePressEnd : undefined}
+                    onMouseLeave={isTarget && mode === 'holding' ? handlePressEnd : undefined}
+                    onTouchStart={isTarget && mode === 'idle' ? handlePressStart : undefined}
+                    onTouchEnd={isTarget && mode === 'holding' ? handlePressEnd : undefined}
+                    disabled={(isTarget ? !installed : false) || mode === 'removing' || mode === 'removed' || mode === 'success'}
                     className={[
                       'h-20 md:h-24 rounded-2xl border-2 flex flex-col items-center justify-center transition-all',
                       isTarget && !installed ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-50',
                       mode === 'edit' && isTarget ? 'animate-[wiggle_0.45s_ease-in-out_infinite]' : '',
                       shouldPulseTarget ? 'ring-4 ring-blue-200' : '',
                     ].join(' ')}
-                    style={shouldPulseTarget ? { animation: 'ringPulse 1.5s ease-out infinite' } : undefined}
+                    style={{
+                      ...(shouldPulseTarget ? { animation: 'ringPulse 1.5s ease-out infinite' } : {}),
+                      ...(targetRemovingNow ? { animation: 'appDisappear 650ms ease-in forwards' } : {}),
+                    }}
                   >
                     <span className="text-base md:text-lg font-semibold">{`App ${idx + 1}`}</span>
                     {isTarget && installed && (
@@ -177,21 +224,22 @@ export default function ManageAppsStorage({ onComplete, onBack, language }: Less
               })}
             </div>
 
-            {/* Storage bar */}
+            {/* Storage bar (reduces during removing/removed, with animation) */}
             <div className="mt-7">
               <p className="text-base md:text-lg font-semibold">
                 {t.storage}: {storageUsed}% {t.used}
               </p>
-              <div className="h-4 w-full border rounded-full overflow-hidden mt-2">
-                <div className="h-full bg-black transition-all duration-700" style={{ width: `${storageUsed}%` }} />
+              <div className="h-4 w-full border rounded-full overflow-hidden mt-2 bg-white">
+                <div
+                  className="h-full bg-black transition-all duration-700"
+                  style={{ width: `${storageUsed}%` }}
+                />
               </div>
             </div>
 
-            {/* Edit mode */}
+            {/* Edit mode actions */}
             {mode === 'edit' && (
-              <div className="mt-7 space-y-5 relative">
-                {/* ✅ Removed blue bubble: "Click Uninstall" */}
-
+              <div className="mt-7 space-y-5">
                 <p className="text-center text-gray-700 text-lg md:text-xl font-medium">{t.editMode}</p>
 
                 <div className="flex gap-4">
@@ -215,7 +263,7 @@ export default function ManageAppsStorage({ onComplete, onBack, language }: Less
               </div>
             )}
 
-            {/* Success overlay (✅ text larger for seniors) */}
+            {/* ✅ LAST screen: Success popup overlay */}
             {mode === 'success' && (
               <div className="absolute inset-0 rounded-[28px] bg-white p-7 flex flex-col justify-center">
                 <div className="max-w-md w-full mx-auto space-y-5">
@@ -227,7 +275,10 @@ export default function ManageAppsStorage({ onComplete, onBack, language }: Less
                     </p>
 
                     <div className="h-4 w-full border rounded-full overflow-hidden mt-3 bg-white">
-                      <div className="h-full bg-black transition-all duration-700" style={{ width: `${storageUsed}%` }} />
+                      <div
+                        className="h-full bg-black transition-all duration-700"
+                        style={{ width: `${storageUsed}%` }}
+                      />
                     </div>
 
                     <p className="text-base md:text-lg text-gray-800 mt-3 font-medium">
