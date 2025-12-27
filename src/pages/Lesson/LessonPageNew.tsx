@@ -17,6 +17,9 @@ import { GmailOrganize } from '../../components/simulations/module1/GmailOrganiz
 import GoogleSearchBasics from '../../components/simulations/module2/GoogleSearchBasics';
 import GoogleVoiceSearch from '../../components/simulations/module2/GoogleVoiceSearch';
 import GoogleFilterTabs from '../../components/simulations/module2/GoogleFilterTabs';
+import GoogleNavigation from '../../components/simulations/module3/GoogleNavigation';
+import GoogleMapsFindingPlaces from '../../components/simulations/module3/GoogleMapsFindingPlaces';
+import GoogleMapsDirections from '../../components/simulations/module3/GoogleMapsDirections';
 
 const LessonPageNew = () => {
   const { lessonId } = useParams<{ lessonId: string }>();
@@ -108,6 +111,19 @@ const LessonPageNew = () => {
     
     if (lesson.id === 'lesson-search-3') {
       return <GoogleFilterTabs onComplete={handleStepComplete} language={currentLang} />;
+    }
+
+    // MODULE 3 (Google Maps)
+    if (lesson.id === 'lesson-maps-1') {
+      return <GoogleMapsFindingPlaces onComplete={handleStepComplete} language={currentLang} />;
+    }
+    
+    if (lesson.id === 'lesson-maps-2') {
+      return <GoogleMapsDirections onComplete={handleStepComplete} language={currentLang} />;
+    }
+
+    if (lesson.id === 'lesson-maps-3') {
+      return <GoogleNavigation onComplete={handleStepComplete} language={currentLang} />;
     }
 
     // Default tutorial/practice content
