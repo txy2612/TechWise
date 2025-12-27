@@ -17,6 +17,11 @@ import { GmailOrganize } from '../../components/simulations/module1/GmailOrganiz
 import GoogleSearchBasics from '../../components/simulations/module2/GoogleSearchBasics';
 import GoogleVoiceSearch from '../../components/simulations/module2/GoogleVoiceSearch';
 import GoogleFilterTabs from '../../components/simulations/module2/GoogleFilterTabs';
+//Module 5
+import ControlCenterBasics from '../../components/simulations/module5/ControlCenterBasics';
+import ConnectWifi from '../../components/simulations/module5/ConnectWifi';
+import SettingsTextSize from '../../components/simulations/module5/SettingsTextSize';
+import ManageAppsStorage from '../../components/simulations/module5/ManageAppsStorage';
 
 const LessonPageNew = () => {
   const { lessonId } = useParams<{ lessonId: string }>();
@@ -108,6 +113,23 @@ const LessonPageNew = () => {
     
     if (lesson.id === 'lesson-search-3') {
       return <GoogleFilterTabs onComplete={handleStepComplete} language={currentLang} />;
+    }
+
+    // MODULE 5 (Smartphone Basics)
+    if (lesson.id === 'lesson-smartphone-1') {
+      return <ControlCenterBasics onComplete={handleStepComplete} onBack={() => navigate(-1)} language={currentLang} />;
+    }
+
+    if (lesson.id === 'lesson-smartphone-2') {
+      return <ConnectWifi onComplete={handleStepComplete} onBack={() => navigate(-1)} language={currentLang} />;
+    }
+
+    if (lesson.id === 'lesson-smartphone-3') {
+      return <SettingsTextSize onComplete={handleStepComplete} onBack={() => navigate(-1)} language={currentLang} />;
+    }
+
+    if (lesson.id === 'lesson-smartphone-4') {
+      return <ManageAppsStorage onComplete={handleStepComplete} onBack={() => navigate(-1)} language={currentLang} />;
     }
 
     // Default tutorial/practice content
