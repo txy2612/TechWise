@@ -4,6 +4,7 @@ import { ArrowLeft, CheckCircle, Lock, PlayCircle, Check, Play, RotateCcw, Arrow
 import { modules, getModuleById } from '../../data/modules';
 import { useProgress } from '../../contexts/ProgressContext';
 import { AnimatedCheckmark } from '../../components/common/AnimatedCheckmark';
+import '../../components/common/animations.css';
 
 const ModuleOverview = () => {
   const { moduleId } = useParams<{ moduleId: string }>();
@@ -33,7 +34,7 @@ const ModuleOverview = () => {
 
   const isLessonLocked = (lessonOrder: number): boolean => {
     if (lessonOrder === 1) return false;
-    
+
     const previousLesson = module.lessons.find((l) => l.order === lessonOrder - 1);
     return previousLesson ? !progress.completedLessons.includes(previousLesson.id) : false;
   };
@@ -41,7 +42,7 @@ const ModuleOverview = () => {
   const moduleProgress = Math.round(
     (module.lessons.filter((l) => progress.completedLessons.includes(l.id)).length /
       module.lessons.length) *
-      100
+    100
   );
 
   return (
@@ -80,8 +81,8 @@ const ModuleOverview = () => {
             </div>
             <div className="h-4 bg-gray-200 rounded-full overflow-hidden">
               <div
-                className="h-full rounded-full transition-all duration-500"
-                style={{ 
+                className="h-full rounded-full transition-all duration-500 strength-bar-shimmer"
+                style={{
                   width: `${moduleProgress}%`,
                   background: 'linear-gradient(90deg, #FBBC04 0%, #34A853 50%, #4285F4 100%)'
                 }}
@@ -113,8 +114,8 @@ const ModuleOverview = () => {
                   }}
                   className={`
                     flex items-center gap-6 p-6 rounded-xl transition-all duration-300
-                    ${locked && !completed 
-                      ? 'bg-gray-100 opacity-50 cursor-not-allowed' 
+                    ${locked && !completed
+                      ? 'bg-gray-100 opacity-50 cursor-not-allowed'
                       : completed
                         ? 'bg-green-50 cursor-pointer hover:bg-green-100'
                         : current

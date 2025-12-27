@@ -7,8 +7,8 @@ interface AnimatedArrowProps {
   position?: 'top' | 'bottom' | 'left' | 'right';
 }
 
-export function AnimatedArrow({ 
-  direction = 'right', 
+export function AnimatedArrow({
+  direction = 'right',
   label,
   position = 'top'
 }: AnimatedArrowProps) {
@@ -26,15 +26,17 @@ export function AnimatedArrow({
     right: 'absolute -right-24 top-1/2 -translate-y-1/2',
   };
 
+  const animationClass = ['up', 'down'].includes(direction) ? 'bounce-vertical' : 'pulse-arrow';
+
   return (
-    <div className={`${positionClasses[position]} pulse-arrow`}>
+    <div className={`${positionClasses[position]} ${animationClass}`}>
       <div className="flex flex-col items-center gap-2">
-        <ArrowRight 
-          className="w-8 h-8 text-blue-600" 
+        <ArrowRight
+          className="w-12 h-12 text-blue-600 pulse-blue-filter"
           style={{ transform: `rotate(${rotations[direction]})` }}
         />
         {label && (
-          <div className="bg-blue-500 text-white px-3 py-1 rounded-lg text-sm font-semibold whitespace-nowrap">
+          <div className="bg-blue-600 text-white px-4 py-1.5 rounded-lg text-sm font-bold whitespace-nowrap shadow-lg pulse-blue-glow">
             {label}
           </div>
         )}

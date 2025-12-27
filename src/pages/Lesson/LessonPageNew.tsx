@@ -19,8 +19,8 @@ import GoogleFilterTabs from '../../components/simulations/module2/GoogleFilterT
 //Module 4
 import { PasswordStrengthLesson } from '../../components/simulations/Safety/PasswordStrengthLesson.tsx';
 import { RecognizingScamsLesson } from '../../components/simulations/Safety/RecognizingScamsLesson';
-import { PrivacySettingsLesson } from '../../components/simulations/Safety/PrivacySettingsLesson';
 import { PhishingDetection } from '../../components/simulations/Safety/PhishingDetection';
+import { FakeWebsiteLesson } from '../../components/simulations/Safety/FakeWebsiteLesson';
 
 const LessonPageNew = () => {
   const { lessonId } = useParams<{ lessonId: string }>();
@@ -109,8 +109,7 @@ const LessonPageNew = () => {
 }
 
   if (lesson.id === 'lesson-safety-3'){
-  return <PrivacySettingsLesson onComplete={handleStepComplete} language={currentLang} />;
-}
+  return <FakeWebsiteLesson onComplete={handleStepComplete} language={currentLang} />;}
 
     if (lesson.id === 'lesson-safety-4'){
       return <PhishingDetection onComplete={handleStepComplete} language={currentLang} />;

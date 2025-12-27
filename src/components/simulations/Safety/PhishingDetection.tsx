@@ -198,53 +198,53 @@ export const PhishingDetection: React.FC<PhishingDetectionProps> = ({ onComplete
     return (
       <div className="max-w-3xl mx-auto">
         {/* Practice Banner */}
-        <div className="bg-gradient-to-r from-orange-400 to-orange-500 text-white px-4 py-2 rounded-lg mb-4 text-center shadow-sm">
-          <p className="text-lg font-semibold">{t.practiceMode}</p>
+        <div className="bg-gradient-to-r from-orange-400 to-orange-500 text-white px-5 py-3 rounded-xl mb-5 text-center shadow-md">
+          <p className="text-xl font-bold">{t.practiceMode}</p>
         </div>
 
         {/* Results */}
-        <div className="card text-center">
-          <Shield className={`w-24 h-24 mx-auto mb-6 ${passed ? 'text-green-500' : 'text-orange-500'}`} />
-          
-          <h2 className="text-4xl font-bold text-gray-900 mb-4">
+        <div className="card p-10 text-center shadow-xl">
+          <Shield className={`w-28 h-28 mx-auto mb-6 ${passed ? 'text-green-500' : 'text-orange-500'}`} />
+
+          <h2 className="text-4xl font-extrabold text-gray-900 mb-5">
             {t.finalScore}
           </h2>
 
-          <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-8 mb-6">
-            <div className="text-6xl font-black text-blue-600 mb-2">
+          <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-3xl p-10 mb-6">
+            <div className="text-7xl font-black text-blue-600 mb-3">
               {score}/{rounds.length}
             </div>
-            <p className="text-xl text-gray-700">
+            <p className="text-2xl text-gray-700 font-medium">
               {Math.round(percentage)}%
             </p>
           </div>
 
-          <div className={`p-6 rounded-xl mb-6 ${passed ? 'bg-green-50' : 'bg-orange-50'}`}>
-            <p className="text-xl font-semibold mb-2" style={{ color: passed ? '#4CAF50' : '#FF9800' }}>
+          <div className={`p-6 rounded-2xl mb-6 ${passed ? 'bg-green-50' : 'bg-orange-50'}`}>
+            <p className="text-xl font-bold" style={{ color: passed ? '#4CAF50' : '#FF9800' }}>
               {passed ? t.congrats : t.needsPractice}
             </p>
           </div>
 
           {/* Safety Tips */}
-          <div className="bg-gray-50 rounded-xl p-6 mb-6 text-left">
-            <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-              <AlertTriangle className="w-6 h-6 text-orange-500" />
+          <div className="bg-gray-50 rounded-2xl p-8 mb-6 text-left border border-gray-100">
+            <h3 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
+              <AlertTriangle className="w-8 h-8 text-orange-500" />
               {t.redFlags}
             </h3>
-            <ul className="space-y-2 text-lg text-gray-700">
-              <li className="flex items-start gap-2">
+            <ul className="space-y-3 text-xl text-gray-700">
+              <li className="flex items-start gap-3">
                 <span className="text-red-500 mt-1">•</span>
                 <span>{t.flag1}</span>
               </li>
-              <li className="flex items-start gap-2">
+              <li className="flex items-start gap-3">
                 <span className="text-red-500 mt-1">•</span>
                 <span>{t.flag2}</span>
               </li>
-              <li className="flex items-start gap-2">
+              <li className="flex items-start gap-3">
                 <span className="text-red-500 mt-1">•</span>
                 <span>{t.flag3}</span>
               </li>
-              <li className="flex items-start gap-2">
+              <li className="flex items-start gap-3">
                 <span className="text-red-500 mt-1">•</span>
                 <span>{t.flag4}</span>
               </li>
@@ -253,7 +253,7 @@ export const PhishingDetection: React.FC<PhishingDetectionProps> = ({ onComplete
 
           <button
             onClick={onComplete}
-            className="btn-primary w-full"
+            className="btn-primary w-full py-5 text-2xl font-black rounded-2xl shadow-lg hover:scale-[1.02] transition-transform"
           >
             {t.continue}
           </button>
@@ -263,32 +263,32 @@ export const PhishingDetection: React.FC<PhishingDetectionProps> = ({ onComplete
   }
 
   return (
-    <div className="max-w-3xl mx-auto">
+    <div className="max-w-3xl mx-auto px-4 pb-10">
       {/* Practice Banner */}
-      <div className="bg-gradient-to-r from-orange-400 to-orange-500 text-white px-4 py-2 rounded-lg mb-4 text-center shadow-sm">
-        <p className="text-lg font-semibold">{t.practiceMode}</p>
+      <div className="bg-gradient-to-r from-orange-400 to-orange-500 text-white px-5 py-3 rounded-xl mb-5 text-center shadow-sm">
+        <p className="text-xl font-bold">{t.practiceMode}</p>
       </div>
 
       {/* Header */}
-      <div className="card mb-6">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
-            <Shield className="w-10 h-10 text-blue-600" />
+      <div className="card mb-6 p-8 shadow-md">
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-3xl font-black text-gray-900 flex items-center gap-4">
+            <Shield className="w-12 h-12 text-blue-600" />
             {t.title}
           </h2>
           <div className="text-right">
-            <div className="text-sm text-gray-600">
+            <div className="text-base font-medium text-gray-600">
               {t.round} {currentRound + 1} {t.of} {rounds.length}
             </div>
-            <div className="text-xl font-bold text-blue-600">
+            <div className="text-2xl font-black text-blue-600">
               {t.score}: {score}
             </div>
           </div>
         </div>
 
         {!showFeedback && (
-          <div className="bg-blue-50 rounded-xl p-4 border-2 border-blue-300">
-            <p className="text-xl font-semibold text-gray-900 text-center">
+          <div className="bg-blue-50 rounded-2xl p-6 border-2 border-blue-200">
+            <p className="text-xl font-bold text-gray-900 text-center">
               {t.instruction}
             </p>
           </div>
@@ -301,48 +301,44 @@ export const PhishingDetection: React.FC<PhishingDetectionProps> = ({ onComplete
           <div
             key={email.id}
             onClick={() => !showFeedback && handleEmailClick(email)}
-            className={`card transition-all cursor-pointer ${
-              !showFeedback ? 'hover:scale-[1.02] hover:shadow-xl' : ''
-            } ${
-              selectedEmail === email.id
+            className={`card p-6 transition-all cursor-pointer ${!showFeedback ? 'hover:scale-[1.01] hover:shadow-xl' : ''
+              } ${selectedEmail === email.id
                 ? email.isPhishing
-                  ? 'border-4 border-red-500 bg-red-50'
-                  : 'border-4 border-green-500 bg-green-50'
+                  ? 'ring-4 ring-red-500 ring-opacity-50 border-red-500 bg-red-50'
+                  : 'ring-4 ring-green-500 ring-opacity-50 border-green-500 bg-green-50'
                 : showFeedback
-                ? 'opacity-50'
-                : 'hover:border-2 hover:border-blue-400'
-            }`}
+                  ? 'opacity-40 grayscale-[0.2]'
+                  : 'hover:border-2 hover:border-blue-300 border border-transparent shadow-sm'
+              }`}
           >
-            <div className="flex items-start gap-4">
-              <div className={`w-14 h-14 rounded-full flex items-center justify-center flex-shrink-0 ${
-                selectedEmail === email.id
+            <div className="flex items-start gap-6">
+              <div className={`w-16 h-16 rounded-2xl flex items-center justify-center flex-shrink-0 transition-colors shadow-sm ${selectedEmail === email.id
+                ? email.isPhishing
+                  ? 'bg-red-200'
+                  : 'bg-green-200'
+                : 'bg-gray-100'
+                }`}>
+                <Mail className={`w-10 h-10 ${selectedEmail === email.id
                   ? email.isPhishing
-                    ? 'bg-red-200'
-                    : 'bg-green-200'
-                  : 'bg-gray-200'
-              }`}>
-                <Mail className={`w-8 h-8 ${
-                  selectedEmail === email.id
-                    ? email.isPhishing
-                      ? 'text-red-600'
-                      : 'text-green-600'
-                    : 'text-gray-600'
-                }`} />
+                    ? 'text-red-600'
+                    : 'text-green-600'
+                  : 'text-gray-500'
+                  }`} />
               </div>
 
               <div className="flex-1">
                 <div className="flex items-center justify-between mb-1">
-                  <p className="text-lg font-bold text-gray-900">{email.from}</p>
+                  <p className="text-xl font-black text-gray-900">{email.from}</p>
                   {selectedEmail === email.id && (
                     email.isPhishing ? (
-                      <AlertTriangle className="w-6 h-6 text-red-500" />
+                      <AlertTriangle className="w-8 h-8 text-red-600" />
                     ) : (
-                      <CheckCircle className="w-6 h-6 text-green-500" />
+                      <CheckCircle className="w-8 h-8 text-green-600" />
                     )
                   )}
                 </div>
-                <p className="text-base font-semibold text-gray-700 mb-1">{email.subject}</p>
-                <p className="text-base text-gray-600">{email.preview}</p>
+                <p className="text-lg font-bold text-gray-700 mb-2">{email.subject}</p>
+                <p className="text-base text-gray-600 leading-relaxed font-medium">{email.preview}</p>
               </div>
             </div>
           </div>
@@ -351,28 +347,27 @@ export const PhishingDetection: React.FC<PhishingDetectionProps> = ({ onComplete
 
       {/* Feedback */}
       {showFeedback && selectedEmailData && (
-        <div className="card mb-6">
-          <div className={`flex items-start gap-4 p-6 rounded-xl ${
-            selectedEmailData.isPhishing ? 'bg-green-50' : 'bg-red-50'
-          }`}>
+        <div className="card mb-8 p-1 shadow-xl rounded-3xl">
+          <div className={`flex items-start gap-6 p-8 rounded-[1.4rem] ${selectedEmailData.isPhishing ? 'bg-green-100/50' : 'bg-red-100/50'
+            }`}>
             {selectedEmailData.isPhishing ? (
-              <CheckCircle className="w-12 h-12 text-green-500 flex-shrink-0" />
+              <CheckCircle className="w-16 h-16 text-green-600 flex-shrink-0" />
             ) : (
-              <XCircle className="w-12 h-12 text-red-500 flex-shrink-0" />
+              <XCircle className="w-16 h-16 text-red-600 flex-shrink-0" />
             )}
-            
+
             <div className="flex-1">
-              <h3 className="text-2xl font-bold text-gray-900 mb-3">
+              <h3 className="text-3xl font-black text-gray-900 mb-4">
                 {selectedEmailData.isPhishing ? t.correct : t.incorrect}
               </h3>
 
               {selectedEmailData.isPhishing && selectedEmailData.redFlags.length > 0 && (
                 <div>
-                  <p className="text-lg font-semibold text-gray-800 mb-2">{t.redFlags}</p>
-                  <ul className="space-y-1">
+                  <p className="text-xl font-black text-gray-800 mb-3 uppercase tracking-wider">{t.redFlags}</p>
+                  <ul className="space-y-3">
                     {selectedEmailData.redFlags.map((flag, index) => (
-                      <li key={index} className="text-base text-gray-700 flex items-start gap-2">
-                        <span className="text-red-500 mt-1">•</span>
+                      <li key={index} className="text-lg text-gray-800 flex items-start gap-3 font-semibold">
+                        <span className="text-red-500 text-2xl line-height-1 mt-[-2px]">•</span>
                         <span>{flag}</span>
                       </li>
                     ))}
@@ -381,7 +376,7 @@ export const PhishingDetection: React.FC<PhishingDetectionProps> = ({ onComplete
               )}
 
               {!selectedEmailData.isPhishing && (
-                <p className="text-lg text-gray-700">
+                <p className="text-xl text-gray-700 font-bold leading-relaxed">
                   This email looks legitimate. The phishing email has suspicious signs like misspellings and urgent language.
                 </p>
               )}
@@ -390,7 +385,7 @@ export const PhishingDetection: React.FC<PhishingDetectionProps> = ({ onComplete
 
           <button
             onClick={handleNext}
-            className="btn-primary w-full mt-6"
+            className="btn-primary w-full py-6 text-2xl font-black rounded-2xl shadow-lg mt-6 hover:scale-[1.02] transition-transform"
           >
             {currentRound < rounds.length - 1 ? t.next : t.finish}
           </button>

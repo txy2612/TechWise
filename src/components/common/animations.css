@@ -1,10 +1,13 @@
 /* Pulse Arrow Animation */
 @keyframes pulse-arrow {
-  0%, 100% { 
-    transform: translateX(0); 
+
+  0%,
+  100% {
+    transform: translateX(0);
   }
-  50% { 
-    transform: translateX(8px); 
+
+  50% {
+    transform: translateX(8px);
   }
 }
 
@@ -12,13 +15,67 @@
   animation: pulse-arrow 1.5s ease-in-out infinite;
 }
 
+/* Vertical Bounce Animation */
+@keyframes bounce-vertical {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.bounce-vertical {
+  animation: bounce-vertical 3s ease-in-out infinite;
+}
+
+/* Blue Glow Pulse */
+@keyframes pulse-blue-glow {
+
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.7);
+  }
+
+  50% {
+    box-shadow: 0 0 0 6px rgba(37, 99, 235, 0.3);
+  }
+}
+
+.pulse-blue-glow {
+  animation: pulse-blue-glow 3s ease-in-out infinite;
+}
+
+/* Blue Filter Pulse (for SVGs) */
+@keyframes pulse-blue-filter {
+
+  0%,
+  100% {
+    filter: drop-shadow(0 0 0 rgba(37, 99, 235, 0));
+  }
+
+  50% {
+    filter: drop-shadow(0 0 4px rgba(37, 99, 235, 0.6));
+  }
+}
+
+.pulse-blue-filter {
+  animation: pulse-blue-filter 3s ease-in-out infinite;
+}
+
 /* Pulse Border Animation */
 @keyframes pulse-border {
-  0%, 100% { 
+
+  0%,
+  100% {
     border-width: 2px;
     box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.5);
   }
-  50% { 
+
+  50% {
     border-width: 4px;
     box-shadow: 0 0 0 8px rgba(59, 130, 246, 0.2);
   }
@@ -28,27 +85,52 @@
   animation: pulse-border 2s ease-in-out infinite;
 }
 
+/* Long Smooth Pulse Border */
+@keyframes pulse-border-smooth {
+
+  0%,
+  100% {
+    border-color: rgba(59, 130, 246, 0.3);
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4);
+  }
+
+  50% {
+    border-color: rgba(59, 130, 246, 1);
+    box-shadow: 0 0 0 8px rgba(59, 130, 246, 0.1);
+  }
+}
+
+.pulse-border-smooth {
+  animation: pulse-border-smooth 3s ease-in-out infinite;
+}
+
 /* Pulse Scale Animation (for buttons/elements) */
 @keyframes pulse-scale {
-  0%, 100% { 
+
+  0%,
+  100% {
     transform: scale(1);
   }
-  50% { 
+
+  50% {
     transform: scale(1.05);
   }
 }
 
 .pulse-scale {
-  animation: pulse-scale 2s ease-in-out infinite;
+  animation: pulse-scale 3s ease-in-out infinite;
 }
 
 /* Microphone pulse animation (Step 2) */
 @keyframes pulse-scale {
-  0%, 100% { 
-    transform: scale(1); 
+
+  0%,
+  100% {
+    transform: scale(1);
   }
-  50% { 
-    transform: scale(1.15); 
+
+  50% {
+    transform: scale(1.15);
   }
 }
 
@@ -62,7 +144,9 @@
     transform: scale(1);
     opacity: 1;
   }
-  75%, 100% {
+
+  75%,
+  100% {
     transform: scale(2);
     opacity: 0;
   }
@@ -74,9 +158,12 @@
 
 /* Listening dots animation */
 @keyframes pulse {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 1;
   }
+
   50% {
     opacity: 0.5;
   }
@@ -98,7 +185,8 @@
   stroke-width: 2;
   stroke: #fff;
   stroke-miterlimit: 10;
-  box-shadow: inset 0px 0px 0px #22c55e; /* Start with transparent green center */
+  box-shadow: inset 0px 0px 0px #22c55e;
+  /* Start with transparent green center */
   /* Animation sequence: 
      1. Draw circle (stroke)
      2. Fill circle green (fill)
@@ -112,7 +200,8 @@
   stroke-dashoffset: 166;
   stroke-width: 2;
   stroke-miterlimit: 10;
-  stroke: #22c55e; /* Green-500 */
+  stroke: #22c55e;
+  /* Green-500 */
   fill: none;
   animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
 }
@@ -127,14 +216,113 @@
 }
 
 @keyframes stroke {
-  100% { stroke-dashoffset: 0; }
+  100% {
+    stroke-dashoffset: 0;
+  }
 }
 
 @keyframes scale {
-  0%, 100% { transform: none; }
-  50% { transform: scale3d(1.1, 1.1, 1); }
+
+  0%,
+  100% {
+    transform: none;
+  }
+
+  50% {
+    transform: scale3d(1.1, 1.1, 1);
+  }
 }
 
 @keyframes fill {
-  100% { box-shadow: inset 0px 0px 0px 50px #22c55e; }
+  100% {
+    box-shadow: inset 0px 0px 0px 50px #22c55e;
+  }
+}
+
+/* Strength Bar Shimmer Animation */
+.strength-bar-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.strength-bar-shimmer::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.4) 50%,
+      transparent 100%);
+  animation: shimmer-wave 2s infinite linear;
+}
+
+@keyframes shimmer-wave {
+  0% {
+    transform: translateX(-100%);
+  }
+
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Shimmer Text Animation */
+.shimmer-text {
+  background: linear-gradient(90deg,
+      var(--shimmer-color) 0%,
+      var(--shimmer-color) 40%,
+      rgba(255, 255, 255, 0.8) 50%,
+      var(--shimmer-color) 60%,
+      var(--shimmer-color) 100%);
+  background-size: 200% auto;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: shimmer-text-wave 3s linear infinite;
+}
+
+@keyframes shimmer-text-wave {
+  to {
+    background-position: 200% center;
+  }
+}
+
+/* Small Tick Drawing Animation */
+.animate-tick-draw path {
+  stroke-dasharray: 24;
+  stroke-dashoffset: 24;
+  animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
+/* Pop In and Fade Out Animation (3s duration) */
+@keyframes pop-in-fade-out {
+  0% { opacity: 0; transform: scale(0.5) translateY(10px); }
+  10% { opacity: 1; transform: scale(1.1) translateY(0); }
+  20% { opacity: 1; transform: scale(1); }
+  80% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(1) translateY(-10px); }
+}
+
+.animate-pop-in-fade-out {
+  animation: pop-in-fade-out 3s ease-in-out forwards;
+}
+
+/* Bubble tail pointing left */
+.bubble-tail-left {
+  position: relative;
+}
+
+.bubble-tail-left::before {
+  content: '';
+  position: absolute;
+  left: -8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  border-right: 8px solid #16a34a; /* green-600 */
 }

@@ -5,13 +5,14 @@ interface InstructionHintProps {
   currentStep: number;
   totalSteps: number;
   language: 'en' | 'zh';
+  pulsing?: boolean;
 }
 
-export function InstructionHint({ text, currentStep, totalSteps, language }: InstructionHintProps) {
+export function InstructionHint({ text, currentStep, totalSteps, language, pulsing = false }: InstructionHintProps) {
   const guideLabel = language === 'en' ? 'Guide: ' : '指南：';
-  
+
   return (
-    <div className="bg-gradient-to-r from-blue-50 to-blue-100 border-2 border-blue-400 rounded-2xl p-6 mb-6 shadow-lg">
+    <div className={`bg-gradient-to-r from-blue-50 to-blue-100 border-2 border-blue-400 rounded-2xl p-6 mb-6 shadow-lg ${pulsing ? 'pulse-border-smooth' : ''}`}>
       <div className="flex items-center justify-between gap-6">
         <p className="text-2xl font-bold text-gray-900 flex-1 leading-tight">
           <span className="text-blue-700">{guideLabel}</span>
