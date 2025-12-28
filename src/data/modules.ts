@@ -672,21 +672,7 @@ const mapsModule: Module = {
       requiredScore: 80,
       steps: [],
       quiz: { id: 'quiz-maps-3', lessonId: 'lesson-maps-3', passingScore: 80, questions: [] },
-    },
-    {
-      id: 'lesson-maps-4',
-      moduleId: 'module-maps',
-      order: 4,
-      titleEn: 'Saving Favorite Places',
-      titleZh: '保存喜爱的地点',
-      descriptionEn: 'Create lists of your favorite locations',
-      descriptionZh: '创建您喜爱的位置列表',
-      contentType: 'tutorial',
-      estimatedMinutes: 8,
-      requiredScore: 80,
-      steps: [],
-      quiz: { id: 'quiz-maps-4', lessonId: 'lesson-maps-4', passingScore: 80, questions: [] },
-    },
+    }
   ],
   badge: badges.find((b) => b.id === 'badge-maps'),
 };
