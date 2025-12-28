@@ -14,7 +14,7 @@ import { GmailReadReply } from '../../components/simulations/module1/GmailReadRe
 import { GmailSignInNav } from '../../components/simulations/module1/GmailSignInNav';
 import { GmailOrganize } from '../../components/simulations/module1/GmailOrganize';
 //Module 2
-import GoogleSearchBasics from '../../components/simulations/module2/GoogleSearchBasics';
+import RealGoogleSearch from '../../components/simulations/module2/RealGoogleSearch';
 import GoogleVoiceSearch from '../../components/simulations/module2/GoogleVoiceSearch';
 import GoogleFilterTabs from '../../components/simulations/module2/GoogleFilterTabs';
 import GoogleNavigation from '../../components/simulations/module3/GoogleNavigation';
@@ -102,7 +102,7 @@ const LessonPageNew = () => {
 
     // MODULE 2 (Web Navigation)
     if (lesson.id === 'lesson-search-1') {
-      return <GoogleSearchBasics onComplete={handleStepComplete} language={currentLang} />;
+      return <RealGoogleSearch onComplete={handleStepComplete} language={currentLang} />;
     }
     
     if (lesson.id === 'lesson-search-2') {

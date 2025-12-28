@@ -127,7 +127,6 @@ const RealGoogleSearch: React.FC<RealGoogleSearchProps> = ({ language = 'en' }) 
               <li>{t.feature1}</li>
               <li>{t.feature2}</li>
               <li>{t.feature3}</li>
-              <li>{t.feature4}</li>
             </ul>
           </div>
 
