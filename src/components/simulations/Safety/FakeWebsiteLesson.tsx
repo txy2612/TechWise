@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { InstructionHint, PracticeBanner } from '../../common';
 import { FAKE_WEBSITE_LESSON } from '../../../data/lessonTexts_module4';
 import { AnimatedCheckmark } from '../../common/AnimatedCheckmark';
@@ -31,6 +31,7 @@ export const FakeWebsiteLesson: React.FC<FakeWebsiteLessonProps> = ({
   const [foundFlags, setFoundFlags] = useState<number[]>([]);
   const [showSuccess, setShowSuccess] = useState(false);
   const [feedbackVisible, setFeedbackVisible] = useState<number | null>(null);
+  const feedbackTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const toggleFlag = (id: number) => {
     if (foundFlags.includes(id)) return; // Already found
@@ -43,7 +44,17 @@ export const FakeWebsiteLesson: React.FC<FakeWebsiteLessonProps> = ({
 
     // Trigger transient feedback
     setFeedbackVisible(id);
-    setTimeout(() => setFeedbackVisible(null), 3000);
+
+    // Clear any existing timer to prevent premature hiding
+    if (feedbackTimerRef.current) {
+      clearTimeout(feedbackTimerRef.current);
+    }
+
+    // Set new timer
+    feedbackTimerRef.current = setTimeout(() => {
+      setFeedbackVisible(null);
+      feedbackTimerRef.current = null;
+    }, 3000);
   };
 
   const nextTarget = [1, 2, 3].find(id => !foundFlags.includes(id));

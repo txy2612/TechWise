@@ -74,7 +74,10 @@ export const PasswordStrengthLesson: React.FC<PasswordStrengthLessonProps> = ({
     }
     // Step 3: Detect Number (Must still have special char & 8+ chars)
     else if (step === 3 && password.length >= 8 && /[!@#$%^&*(),.?":{}|<>]/.test(password) && /\d/.test(password)) {
-      setShowSuccess(true);
+      setTimeout(() => {
+        setStep(4);
+        setTimeout(() => setShowSuccess(true), 3000);
+      }, 500);
     }
 
     // Reset symbol if we reset (e.g. somehow clearing input completely, though logic mostly additive here)
@@ -106,6 +109,7 @@ export const PasswordStrengthLesson: React.FC<PasswordStrengthLessonProps> = ({
   const getStrengthText = () => {
     if (step < 1) return t.weak;
     if (step < 3) return t.medium;
+    if (step === 3) return t.stronger;
     return t.strong;
   };
 
@@ -117,10 +121,10 @@ export const PasswordStrengthLesson: React.FC<PasswordStrengthLessonProps> = ({
 
         <InstructionHint
           text={showSuccess ? t.successMessage : getStepText()}
-          currentStep={step}
+          currentStep={Math.min(step, 3)}
           totalSteps={4}
           language={safeLang}
-          pulsing={!showSuccess}
+          pulsing={false}
         />
 
         <div className="bg-white rounded-3xl shadow-xl p-8 border-2 border-gray-100 flex-1 flex flex-col justify-center relative">
@@ -215,6 +219,7 @@ export const PasswordStrengthLesson: React.FC<PasswordStrengthLessonProps> = ({
                   direction="down"
                   position="top"
                   label={safeLang === 'en' ? 'Type here' : '在此输入'}
+                  pulsing={false}
                 />
               </div>
             )}
@@ -223,13 +228,13 @@ export const PasswordStrengthLesson: React.FC<PasswordStrengthLessonProps> = ({
           <div className="bg-gray-200 rounded-full h-6 w-full overflow-hidden mb-4">
             <div
               className={`h-full transition-all duration-1000 ease-out strength-bar-shimmer ${getStrengthColor()}`}
-              style={{ width: `${((step + 1) / 4) * 100}%` }}
+              style={{ width: showSuccess ? '100%' : `${step * 25}%` }}
             ></div>
           </div>
           <div className="text-right font-bold text-xl text-gray-600">
             {t.strengthLabel} <span
-              className="shimmer-text font-bold"
-              style={{ '--shimmer-color': step < 1 ? '#ef4444' : step < 3 ? '#eab308' : '#22c55e' } as React.CSSProperties}
+              className="font-bold"
+              style={{ color: step < 1 ? '#ef4444' : step < 3 ? '#eab308' : '#22c55e' }}
             >
               {getStrengthText()}
             </span>

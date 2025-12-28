@@ -21,6 +21,7 @@ export const PASSWORD_STRENGTH_LESSON = {
     weak: "Weak",
     medium: "Medium",
     strong: "Strong",
+    stronger: "Stronger",
 
     // Feedback
     feedbackLength: "Make it longer!",
@@ -45,6 +46,7 @@ export const PASSWORD_STRENGTH_LESSON = {
     weak: "弱",
     medium: "中",
     strong: "强",
+    stronger: "更强",
 
     // Feedback
     feedbackLength: "让它变长！",
