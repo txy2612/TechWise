@@ -17,6 +17,7 @@ import { GmailOrganize } from '../../components/simulations/module1/GmailOrganiz
 import RealGoogleSearch from '../../components/simulations/module2/RealGoogleSearch';
 import GoogleVoiceSearch from '../../components/simulations/module2/GoogleVoiceSearch';
 import GoogleFilterTabs from '../../components/simulations/module2/GoogleFilterTabs';
+//Module 3
 import GoogleNavigation from '../../components/simulations/module3/GoogleNavigation';
 import GoogleMapsFindingPlaces from '../../components/simulations/module3/GoogleMapsFindingPlaces';
 import GoogleMapsDirections from '../../components/simulations/module3/GoogleMapsDirections';
@@ -26,6 +27,12 @@ import { PasswordStrengthLesson } from '../../components/simulations/Safety/Pass
 import { RecognizingScamsLesson } from '../../components/simulations/Safety/RecognizingScamsLesson';
 import { PhishingDetection } from '../../components/simulations/Safety/PhishingDetection';
 import { FakeWebsiteLesson } from '../../components/simulations/Safety/FakeWebsiteLesson';
+
+//Module 5
+import ControlCenterBasics from '../../components/simulations/module5/ControlCenterBasics';
+import ConnectWifi from '../../components/simulations/module5/ConnectWifi';
+import SettingsTextSize from '../../components/simulations/module5/SettingsTextSize';
+import ManageAppsStorage from '../../components/simulations/module5/ManageAppsStorage';
 
 const LessonPageNew = () => {
   const { lessonId } = useParams<{ lessonId: string }>();
@@ -147,6 +154,23 @@ const LessonPageNew = () => {
 
     if (lesson.id === 'lesson-maps-3') {
       return <GoogleNavigation onComplete={handleStepComplete} language={currentLang} />;
+    }
+
+    // MODULE 5 (Smartphone Basics)
+    if (lesson.id === 'lesson-smartphone-1') {
+      return <ControlCenterBasics onComplete={handleStepComplete} onBack={() => navigate(-1)} language={currentLang} />;
+    }
+
+    if (lesson.id === 'lesson-smartphone-2') {
+      return <ConnectWifi onComplete={handleStepComplete} onBack={() => navigate(-1)} language={currentLang} />;
+    }
+
+    if (lesson.id === 'lesson-smartphone-3') {
+      return <SettingsTextSize onComplete={handleStepComplete} onBack={() => navigate(-1)} language={currentLang} />;
+    }
+
+    if (lesson.id === 'lesson-smartphone-4') {
+      return <ManageAppsStorage onComplete={handleStepComplete} onBack={() => navigate(-1)} language={currentLang} />;
     }
 
     // Default tutorial/practice content
