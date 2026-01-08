@@ -196,64 +196,33 @@ export const PhishingDetection: React.FC<PhishingDetectionProps> = ({ onComplete
     const passed = percentage >= 66; // 2 out of 3
 
     return (
-      <div className="max-w-3xl mx-auto">
-        {/* Practice Banner */}
-        <div className="bg-gradient-to-r from-orange-400 to-orange-500 text-white px-5 py-3 rounded-xl mb-5 text-center shadow-md">
-          <p className="text-xl font-bold">{t.practiceMode}</p>
-        </div>
+      <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 flex justify-center items-start p-6 pt-20">
+        <div className="max-w-lg w-full bg-white rounded-3xl shadow-lg p-10">
+          <div className="text-center mb-6">
+            <div className="text-7xl mb-4">🎉</div>
+          </div>
 
-        {/* Results */}
-        <div className="card p-10 text-center shadow-xl">
-          <Shield className={`w-28 h-28 mx-auto mb-6 ${passed ? 'text-green-500' : 'text-orange-500'}`} />
-
-          <h2 className="text-4xl font-extrabold text-gray-900 mb-5">
-            {t.finalScore}
+          <h2 className="text-3xl font-bold text-gray-900 text-center mb-4">
+            {t.finalScore}: {score}/{rounds.length}
           </h2>
 
-          <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-3xl p-10 mb-6">
-            <div className="text-7xl font-black text-blue-600 mb-3">
-              {score}/{rounds.length}
+          <p className="text-xl text-gray-600 text-center mb-6">
+            {passed ? t.congrats : t.needsPractice}
+          </p>
+
+          <div className="bg-green-50 rounded-2xl p-6 mb-8">
+            <p className="text-lg font-semibold text-gray-900 mb-3">{t.redFlags}</p>
+            <div className="space-y-2">
+              <p className="text-base text-gray-700">• {t.flag1}</p>
+              <p className="text-base text-gray-700">• {t.flag2}</p>
+              <p className="text-base text-gray-700">• {t.flag3}</p>
+              <p className="text-base text-gray-700">• {t.flag4}</p>
             </div>
-            <p className="text-2xl text-gray-700 font-medium">
-              {Math.round(percentage)}%
-            </p>
-          </div>
-
-          <div className={`p-6 rounded-2xl mb-6 ${passed ? 'bg-green-50' : 'bg-orange-50'}`}>
-            <p className="text-xl font-bold" style={{ color: passed ? '#4CAF50' : '#FF9800' }}>
-              {passed ? t.congrats : t.needsPractice}
-            </p>
-          </div>
-
-          {/* Safety Tips */}
-          <div className="bg-gray-50 rounded-2xl p-8 mb-6 text-left border border-gray-100">
-            <h3 className="text-2xl font-bold text-gray-900 mb-4 flex items-center gap-3">
-              <AlertTriangle className="w-8 h-8 text-orange-500" />
-              {t.redFlags}
-            </h3>
-            <ul className="space-y-3 text-xl text-gray-700">
-              <li className="flex items-start gap-3">
-                <span className="text-red-500 mt-1">•</span>
-                <span>{t.flag1}</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="text-red-500 mt-1">•</span>
-                <span>{t.flag2}</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="text-red-500 mt-1">•</span>
-                <span>{t.flag3}</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="text-red-500 mt-1">•</span>
-                <span>{t.flag4}</span>
-              </li>
-            </ul>
           </div>
 
           <button
             onClick={onComplete}
-            className="btn-primary w-full py-5 text-2xl font-black rounded-2xl shadow-lg hover:scale-[1.02] transition-transform"
+            className="w-full py-4 px-8 bg-green-600 hover:bg-green-700 text-white text-xl font-bold rounded-xl transition-colors shadow-lg"
           >
             {t.continue}
           </button>

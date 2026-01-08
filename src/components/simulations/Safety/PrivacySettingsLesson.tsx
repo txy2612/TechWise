@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { InstructionHint, PracticeBanner } from '../../common';
 import { PRIVACY_SETTINGS_LESSON } from '../../../data/lessonTexts_module4';
-import { AnimatedCheckmark } from '../../common/AnimatedCheckmark';
 import { Lock, Globe, MapPin, Eye, ShieldAlert, ShieldCheck } from 'lucide-react';
 
 interface PrivacySettingsLessonProps {
@@ -37,30 +36,30 @@ export const PrivacySettingsLesson: React.FC<PrivacySettingsLessonProps> = ({
       <PracticeBanner language={safeLang} />
 
       <div className="p-6 max-w-2xl mx-auto w-full flex-1 flex flex-col">
-        
+
         {/* Instruction Hint */}
-        <InstructionHint 
+        <InstructionHint
           text={showSuccess ? t.guideSuccess : t.guide}
-          currentStep={safeCount - 1} 
+          currentStep={safeCount - 1}
           totalSteps={3}
           language={safeLang}
         />
 
         {/* Settings Card */}
         <div className="bg-white rounded-3xl shadow-xl border border-gray-100 flex-1 flex flex-col relative overflow-hidden">
-          
+
           {/* Header */}
           <div className="bg-gray-50 p-6 border-b border-gray-100 flex items-center gap-3">
-             <div className="bg-blue-100 p-2 rounded-full">
-               <Lock className="w-6 h-6 text-blue-600" />
-             </div>
-             <h2 className="text-2xl font-bold text-gray-800">{t.title}</h2>
+            <div className="bg-blue-100 p-2 rounded-full">
+              <Lock className="w-6 h-6 text-blue-600" />
+            </div>
+            <h2 className="text-2xl font-bold text-gray-800">{t.title}</h2>
           </div>
 
           <div className="p-6 flex-1 flex flex-col gap-6 overflow-y-auto">
-            
+
             {/* Setting 1: Profile Visibility */}
-            <SettingRow 
+            <SettingRow
               icon={<Globe className={`w-6 h-6 ${isProfilePrivate ? 'text-green-600' : 'text-orange-500'}`} />}
               title={t.setting1Title}
               desc={t.setting1Desc}
@@ -73,7 +72,7 @@ export const PrivacySettingsLesson: React.FC<PrivacySettingsLessonProps> = ({
             />
 
             {/* Setting 2: Location */}
-            <SettingRow 
+            <SettingRow
               icon={<MapPin className={`w-6 h-6 ${isLocationOff ? 'text-green-600' : 'text-orange-500'}`} />}
               title={t.setting2Title}
               desc={t.setting2Desc}
@@ -86,7 +85,7 @@ export const PrivacySettingsLesson: React.FC<PrivacySettingsLessonProps> = ({
             />
 
             {/* Setting 3: Ads */}
-            <SettingRow 
+            <SettingRow
               icon={<Eye className={`w-6 h-6 ${isAdsBlocked ? 'text-green-600' : 'text-orange-500'}`} />}
               title={t.setting3Title}
               desc={t.setting3Desc}
@@ -102,15 +101,29 @@ export const PrivacySettingsLesson: React.FC<PrivacySettingsLessonProps> = ({
 
           {/* Success Overlay */}
           {showSuccess && (
-            <div className="absolute inset-0 bg-green-50/95 z-20 flex flex-col items-center justify-center rounded-3xl">
-              <AnimatedCheckmark />
-              <h2 className="text-3xl font-bold text-green-800 mb-6 text-center px-4">{t.successMessage}</h2>
-              <button 
-                onClick={onComplete}
-                className="btn-primary text-xl px-8 py-4 pulse-scale"
-              >
-                {t.finishButton}
-              </button>
+            <div className="absolute inset-0 bg-gradient-to-br from-green-50 to-blue-50 z-20 flex justify-center items-start p-6 pt-12 rounded-3xl overflow-auto">
+              <div className="max-w-lg w-full bg-white rounded-3xl shadow-lg p-10">
+                <div className="text-center mb-6">
+                  <div className="text-7xl mb-4">🎉</div>
+                </div>
+
+                <h2 className="text-3xl font-bold text-gray-900 text-center mb-4">
+                  {t.successMessage}
+                </h2>
+
+                <p className="text-xl text-gray-600 text-center mb-6">
+                  {safeLang === 'en'
+                    ? "Your privacy settings are now secure!"
+                    : "您的隐私设置现在是安全的！"}
+                </p>
+
+                <button
+                  onClick={onComplete}
+                  className="w-full py-4 px-8 bg-green-600 hover:bg-green-700 text-white text-xl font-bold rounded-xl transition-colors shadow-lg"
+                >
+                  {t.finishButton}
+                </button>
+              </div>
             </div>
           )}
 
@@ -133,8 +146,8 @@ interface SettingRowProps {
   onToggle: () => void;
 }
 
-const SettingRow: React.FC<SettingRowProps> = ({ 
-  icon, title, desc, isSafe, unsafeLabel, safeLabel, statusLabelSafe, statusLabelUnsafe, onToggle 
+const SettingRow: React.FC<SettingRowProps> = ({
+  icon, title, desc, isSafe, unsafeLabel, safeLabel, statusLabelSafe, statusLabelUnsafe, onToggle
 }) => {
   return (
     <div className={`border-2 rounded-2xl p-4 transition-all duration-300 ${isSafe ? 'border-green-100 bg-green-50/30' : 'border-orange-100 bg-white'}`}>
@@ -145,14 +158,13 @@ const SettingRow: React.FC<SettingRowProps> = ({
         <div className="flex-1">
           <h3 className="text-lg font-bold text-gray-900">{title}</h3>
           <p className="text-gray-500 text-sm mb-3">{desc}</p>
-          
-          <button 
+
+          <button
             onClick={onToggle}
-            className={`w-full text-left px-4 py-3 rounded-xl border-2 flex justify-between items-center transition-all ${
-              isSafe 
-                ? 'bg-green-500 border-green-500 text-white shadow-md' 
-                : 'bg-white border-orange-300 text-gray-700 hover:bg-orange-50'
-            }`}
+            className={`w-full text-left px-4 py-3 rounded-xl border-2 flex justify-between items-center transition-all ${isSafe
+              ? 'bg-green-500 border-green-500 text-white shadow-md'
+              : 'bg-white border-orange-300 text-gray-700 hover:bg-orange-50'
+              }`}
           >
             <span className="font-bold text-lg">
               {isSafe ? safeLabel : unsafeLabel}

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { InstructionHint, PracticeBanner, AnimatedArrow } from '../../common';
+import { InstructionHint, PracticeBanner } from '../../common';
 import { PASSWORD_STRENGTH_LESSON } from '../../../data/lessonTexts_module4';
-import { AnimatedCheckmark } from '../../common/AnimatedCheckmark';
 import { Check, X } from 'lucide-react';
 
 interface PasswordStrengthLessonProps {
@@ -58,14 +57,12 @@ export const PasswordStrengthLesson: React.FC<PasswordStrengthLessonProps> = ({
 
   // --- UPDATED DETECTION LOGIC ---
   useEffect(() => {
-    const lowerPass = password.toLowerCase();
-
-    // Step 0: User types "password"
-    if (step === 0 && lowerPass === 'password') {
+    // Step 0: User types any word (at least 1 character)
+    if (step === 0 && password.length >= 1) {
       setTimeout(() => setStep(1), 500);
     }
-    // Step 1: Detect at least 8 characters (Must still contain base word to be valid progress)
-    else if (step === 1 && password.length >= 8 && lowerPass.includes('password')) {
+    // Step 1: Detect at least 8 characters
+    else if (step === 1 && password.length >= 8) {
       setTimeout(() => setStep(2), 500);
     }
     // Step 2: Detect Special Character (Must still be 8+ chars)
@@ -130,15 +127,29 @@ export const PasswordStrengthLesson: React.FC<PasswordStrengthLessonProps> = ({
         <div className="bg-white rounded-3xl shadow-xl p-8 border-2 border-gray-100 flex-1 flex flex-col justify-center relative">
 
           {showSuccess && (
-            <div className="absolute inset-0 bg-green-50/95 z-10 flex flex-col items-center justify-center rounded-3xl">
-              <AnimatedCheckmark />
-              <h2 className="text-3xl font-bold text-green-800 mb-6">{t.strong}</h2>
-              <button
-                onClick={onComplete}
-                className="btn-primary text-xl px-8 py-4 pulse-scale"
-              >
-                {t.finishButton}
-              </button>
+            <div className="absolute inset-0 bg-gradient-to-br from-green-50 to-blue-50 z-10 flex justify-center items-start p-6 pt-12 rounded-3xl overflow-auto">
+              <div className="max-w-lg w-full bg-white rounded-3xl shadow-lg p-10">
+                <div className="text-center mb-6">
+                  <div className="text-7xl mb-4">🎉</div>
+                </div>
+
+                <h2 className="text-3xl font-bold text-gray-900 text-center mb-4">
+                  {t.strong}
+                </h2>
+
+                <p className="text-xl text-gray-600 text-center mb-6">
+                  {safeLang === 'en'
+                    ? "You've created a strong password!"
+                    : "您已创建了一个强密码！"}
+                </p>
+
+                <button
+                  onClick={onComplete}
+                  className="w-full py-4 px-8 bg-green-600 hover:bg-green-700 text-white text-xl font-bold rounded-xl transition-colors shadow-lg"
+                >
+                  {t.finishButton}
+                </button>
+              </div>
             </div>
           )}
 
@@ -210,19 +221,6 @@ export const PasswordStrengthLesson: React.FC<PasswordStrengthLessonProps> = ({
                 </div>
               )}
             </div>
-
-            {step === 0 && (
-              // FIXED: Added 'flex justify-center' to center the arrow horizontally
-              // Kept 'top-8' to position it relative to the input box (moved down from top-4)
-              <div className="absolute w-full top-6 z-10 pointer-events-none flex justify-center">
-                <AnimatedArrow
-                  direction="down"
-                  position="top"
-                  label={safeLang === 'en' ? 'Type here' : '在此输入'}
-                  pulsing={false}
-                />
-              </div>
-            )}
           </div>
 
           <div className="bg-gray-200 rounded-full h-6 w-full overflow-hidden mb-4">
@@ -241,7 +239,7 @@ export const PasswordStrengthLesson: React.FC<PasswordStrengthLessonProps> = ({
           </div>
 
           <div className="mt-8 grid grid-cols-2 gap-4">
-            <RequirementItem checked={step > 0} text={safeLang === 'en' ? 'Use a word' : '使用单词'} pulsing={step === 0} />
+            <RequirementItem checked={step > 0} text={safeLang === 'en' ? 'Use a word (eg. p or P)' : '使用单词 (例如 p 或 P)'} pulsing={step === 0} />
             <RequirementItem checked={step > 1} text={safeLang === 'en' ? 'At least 8 characters' : '至少8个字母'} pulsing={step === 1} />
             <RequirementItem checked={step > 2} text={safeLang === 'en' ? 'Add symbol (@)' : '添加符号 (@)'} pulsing={step === 2} />
             <RequirementItem checked={step > 3} text={safeLang === 'en' ? 'Add number' : '添加数字'} pulsing={step === 3} />

@@ -201,9 +201,9 @@ export const FAKE_WEBSITE_LESSON = {
     buyButton: "Buy Now",
 
     // Feedback
-    flag1Feedback: "Correct! The URL is not secure (http) and looks strange.",
+    flag1Feedback: "If the website starts with 'https://' — with an 'S' — it means it's more secure. Tip: The 'S' stands for 'secure'.",
     flag2Feedback: "Correct! $50 for a new iPhone is too good to be true.",
-    flag3Feedback: "Correct! Clicking 'Buy Now' here would likely lead to a stolen credit card.",
+    flag3Feedback: "Be careful: clicking may take you to a page that asks for your personal or payment details. The real risk is giving away that information.",
 
     finishButton: "Complete Lesson",
     flagsFound: "Red Flags Found:"
@@ -226,9 +226,9 @@ export const FAKE_WEBSITE_LESSON = {
     buyButton: "立即购买",
 
     // Feedback
-    flag1Feedback: "正确！网址不安全 (http) 且看起来很奇怪。",
+    flag1Feedback: "如果网址以 'https://' 开头（带有 'S'），则表示更安全。提示：'S' 代表 'secure'（安全）。",
     flag2Feedback: "正确！全新 iPhone 只要 300 元，这价格太假了。",
-    flag3Feedback: "正确！点击“立即购买”可能会导致您的信用卡信息被盗。",
+    flag3Feedback: "小心：点击可能会将您带到要求填写个人或支付信息的页面。真正的风险是泄露这些信息。",
 
     finishButton: "完成课程",
     flagsFound: "已发现的危险信号："
