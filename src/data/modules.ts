@@ -643,7 +643,61 @@ const mapsModule: Module = {
       estimatedMinutes: 10,
       requiredScore: 80,
       steps: [],
-      quiz: { id: 'quiz-maps-1', lessonId: 'lesson-maps-1', passingScore: 80, questions: [] },
+      quiz: {
+        id: 'quiz-maps-1',
+        lessonId: 'lesson-maps-1',
+        passingScore: 80,
+        questions: [
+          {
+            id: 'maps-1-q1',
+            type: 'multiple-choice',
+            questionEn: 'How do you search for a place in Google Maps?',
+            questionZh: '如何在 Google 地图中搜索地点？',
+            options: [
+              { id: 'maps-1-q1-a', textEn: 'Shake your phone', textZh: '摇晃手机' },
+              { id: 'maps-1-q1-b', textEn: 'Tap the search bar and type the name or address', textZh: '点击搜索栏并输入名称或地址' },
+              { id: 'maps-1-q1-c', textEn: 'Wait for places to appear automatically', textZh: '等待地点自动出现' },
+              { id: 'maps-1-q1-d', textEn: 'Call Google support', textZh: '拨打 Google 支持电话' }
+            ],
+            correctAnswer: 'maps-1-q1-b',
+            explanationEn: 'To find a place, tap the search bar at the top of the screen and type the name, address, or type of place you are looking for.',
+            explanationZh: '要查找地点，请点击屏幕顶部的搜索栏，然后输入您要查找的名称、地址或地点类型。',
+            points: 10,
+          },
+          {
+            id: 'maps-1-q2',
+            type: 'multiple-choice',
+            questionEn: 'What does the red pin marker on the map indicate?',
+            questionZh: '地图上的红色图钉标记表示什么？',
+            options: [
+              { id: 'maps-1-q2-a', textEn: 'A dangerous area', textZh: '危险区域' },
+              { id: 'maps-1-q2-b', textEn: 'The selected location', textZh: '所选位置' },
+              { id: 'maps-1-q2-c', textEn: 'Traffic congestion', textZh: '交通拥堵' },
+              { id: 'maps-1-q2-d', textEn: 'A restaurant', textZh: '一家餐厅' }
+            ],
+            correctAnswer: 'maps-1-q2-b',
+            explanationEn: 'The red pin marker shows the exact location you searched for or tapped on the map.',
+            explanationZh: '红色图钉标记显示您搜索或在地图上点击的确切位置。',
+            points: 10,
+          },
+          {
+            id: 'maps-1-q3',
+            type: 'multiple-choice',
+            questionEn: 'How can you see more information about a place (like hours and reviews)?',
+            questionZh: '如何查看有关地点的更多信息（如营业时间和评论）？',
+            options: [
+              { id: 'maps-1-q3-a', textEn: 'Double-tap the sky', textZh: '双击天空' },
+              { id: 'maps-1-q3-b', textEn: 'Tap on the place name or the info card at the bottom', textZh: '点击地点名称或底部的信息卡' },
+              { id: 'maps-1-q3-c', textEn: 'Turn off your phone', textZh: '关闭手机' },
+              { id: 'maps-1-q3-d', textEn: 'Information is not available in Google Maps', textZh: 'Google 地图中没有信息' }
+            ],
+            correctAnswer: 'maps-1-q3-b',
+            explanationEn: 'Tapping on the place name or the card that appears at the bottom of the screen reveals details like address, phone number, hours, photos, and reviews.',
+            explanationZh: '点击地点名称或屏幕底部出现的卡片，可以显示地址、电话号码、营业时间、照片和评论等详细信息。',
+            points: 10,
+          }
+        ],
+      },
     },
     {
       id: 'lesson-maps-2',
@@ -657,7 +711,61 @@ const mapsModule: Module = {
       estimatedMinutes: 12,
       requiredScore: 80,
       steps: [],
-      quiz: { id: 'quiz-maps-2', lessonId: 'lesson-maps-2', passingScore: 80, questions: [] },
+      quiz: {
+        id: 'quiz-maps-2',
+        lessonId: 'lesson-maps-2',
+        passingScore: 80,
+        questions: [
+          {
+            id: 'maps-2-q1',
+            type: 'multiple-choice',
+            questionEn: 'What button do you tap to get directions to a place?',
+            questionZh: '您点击哪个按钮来获取到某个地点的路线？',
+            options: [
+              { id: 'maps-2-q1-a', textEn: 'The "Directions" button (arrow icon)', textZh: '"路线"按钮（箭头图标）' },
+              { id: 'maps-2-q1-b', textEn: 'The "Call" button', textZh: '"拨打电话"按钮' },
+              { id: 'maps-2-q1-c', textEn: 'The "Share" button', textZh: '"分享"按钮' },
+              { id: 'maps-2-q1-d', textEn: 'The "Save" button', textZh: '"保存"按钮' }
+            ],
+            correctAnswer: 'maps-2-q1-a',
+            explanationEn: 'The "Directions" button (usually shown as an arrow) opens the navigation screen where you can set your starting point and destination.',
+            explanationZh: '"路线"按钮（通常显示为箭头）会打开导航屏幕，您可以在其中设置起点和目的地。',
+            points: 10,
+          },
+          {
+            id: 'maps-2-q2',
+            type: 'multiple-choice',
+            questionEn: 'Which icons let you choose between driving, walking, or public transit?',
+            questionZh: '哪些图标可让您选择驾车、步行或公共交通？',
+            options: [
+              { id: 'maps-2-q2-a', textEn: 'The food icons', textZh: '食物图标' },
+              { id: 'maps-2-q2-b', textEn: 'The transportation mode icons at the top (car, person, bus, bike)', textZh: '顶部的交通方式图标（汽车、人、公交车、自行车）' },
+              { id: 'maps-2-q2-c', textEn: 'The weather icons', textZh: '天气图标' },
+              { id: 'maps-2-q2-d', textEn: 'There is no choice; it picks automatically', textZh: '没有选择；它会自动选择' }
+            ],
+            correctAnswer: 'maps-2-q2-b',
+            explanationEn: 'At the top of the directions screen, you can tap icons for car (driving), person (walking), bus (transit), or bike (cycling) to choose how you want to travel.',
+            explanationZh: '在路线屏幕顶部，您可以点击汽车（驾车）、人（步行）、公交车（公共交通）或自行车（骑行）图标来选择您想要的出行方式。',
+            points: 10,
+          },
+          {
+            id: 'maps-2-q3',
+            type: 'multiple-choice',
+            questionEn: 'What does the blue line on the map represent when getting directions?',
+            questionZh: '获取路线时，地图上的蓝线代表什么？',
+            options: [
+              { id: 'maps-2-q3-a', textEn: 'A river', textZh: '一条河' },
+              { id: 'maps-2-q3-b', textEn: 'The recommended route to your destination', textZh: '到达目的地的推荐路线' },
+              { id: 'maps-2-q3-c', textEn: 'A no-go zone', textZh: '禁区' },
+              { id: 'maps-2-q3-d', textEn: 'The border of a country', textZh: '国家边界' }
+            ],
+            correctAnswer: 'maps-2-q3-b',
+            explanationEn: 'The blue line shows the route Google Maps recommends for you to follow from your starting point to your destination.',
+            explanationZh: '蓝线显示 Google 地图建议您从起点到目的地的路线。',
+            points: 10,
+          }
+        ],
+      },
     },
     {
       id: 'lesson-maps-3',
@@ -671,7 +779,61 @@ const mapsModule: Module = {
       estimatedMinutes: 10,
       requiredScore: 80,
       steps: [],
-      quiz: { id: 'quiz-maps-3', lessonId: 'lesson-maps-3', passingScore: 80, questions: [] },
+      quiz: {
+        id: 'quiz-maps-3',
+        lessonId: 'lesson-maps-3',
+        passingScore: 80,
+        questions: [
+          {
+            id: 'maps-3-q1',
+            type: 'multiple-choice',
+            questionEn: 'How do you enter Street View for a location?',
+            questionZh: '如何进入某个位置的街景视图？',
+            options: [
+              { id: 'maps-3-q1-a', textEn: 'By tapping on the small photo preview of the street', textZh: '点击街道的小照片预览' },
+              { id: 'maps-3-q1-b', textEn: 'By shaking the phone three times', textZh: '摇晃手机三次' },
+              { id: 'maps-3-q1-c', textEn: 'Street View is only on computers', textZh: '街景视图仅在电脑上可用' },
+              { id: 'maps-3-q1-d', textEn: 'By calling the location', textZh: '通过拨打该位置的电话' }
+            ],
+            correctAnswer: 'maps-3-q1-a',
+            explanationEn: 'When you search for a place, a small photo preview often appears. Tapping it opens Street View, showing you a 360-degree view of the area.',
+            explanationZh: '当您搜索一个地点时，通常会出现一个小照片预览。点击它会打开街景视图，向您展示该区域的 360 度视图。',
+            points: 10,
+          },
+          {
+            id: 'maps-3-q2',
+            type: 'multiple-choice',
+            questionEn: 'How do you look around in Street View?',
+            questionZh: '如何在街景视图中环顾四周？',
+            options: [
+              { id: 'maps-3-q2-a', textEn: 'Swipe or drag your finger across the screen', textZh: '在屏幕上滑动或拖动手指' },
+              { id: 'maps-3-q2-b', textEn: 'Press and hold the power button', textZh: '按住电源按钮' },
+              { id: 'maps-3-q2-c', textEn: 'Speak to the phone', textZh: '对着手机说话' },
+              { id: 'maps-3-q2-d', textEn: 'You cannot move the camera', textZh: '您无法移动相机' }
+            ],
+            correctAnswer: 'maps-3-q2-a',
+            explanationEn: 'To look around in Street View, simply swipe or drag your finger on the screen to rotate the 360-degree view.',
+            explanationZh: '要在街景视图中环顾四周，只需在屏幕上滑动或拖动手指即可旋转 360 度视图。',
+            points: 10,
+          },
+          {
+            id: 'maps-3-q3',
+            type: 'multiple-choice',
+            questionEn: 'What is Street View useful for?',
+            questionZh: '街景视图有什么用处？',
+            options: [
+              { id: 'maps-3-q3-a', textEn: 'Ordering food', textZh: '点餐' },
+              { id: 'maps-3-q3-b', textEn: 'Seeing what a place looks like before you visit', textZh: '在访问之前查看一个地方的样子' },
+              { id: 'maps-3-q3-c', textEn: 'Making phone calls', textZh: '打电话' },
+              { id: 'maps-3-q3-d', textEn: 'Sending emails', textZh: '发送电子邮件' }
+            ],
+            correctAnswer: 'maps-3-q3-b',
+            explanationEn: 'Street View lets you virtually explore a location so you know what it looks like before you arrive—great for finding entrances or checking out neighborhoods.',
+            explanationZh: '街景视图可让您虚拟探索一个位置，以便在到达之前了解它的样子——非常适合寻找入口或查看社区。',
+            points: 10,
+          }
+        ],
+      },
     },
     {
       id: 'lesson-maps-4',
@@ -685,7 +847,61 @@ const mapsModule: Module = {
       estimatedMinutes: 8,
       requiredScore: 80,
       steps: [],
-      quiz: { id: 'quiz-maps-4', lessonId: 'lesson-maps-4', passingScore: 80, questions: [] },
+      quiz: {
+        id: 'quiz-maps-4',
+        lessonId: 'lesson-maps-4',
+        passingScore: 80,
+        questions: [
+          {
+            id: 'maps-4-q1',
+            type: 'multiple-choice',
+            questionEn: 'How do you save a place in Google Maps?',
+            questionZh: '如何在 Google 地图中保存地点？',
+            options: [
+              { id: 'maps-4-q1-a', textEn: 'Take a screenshot', textZh: '截屏' },
+              { id: 'maps-4-q1-b', textEn: 'Tap "Save" and choose a list (like Favorites)', textZh: '点击"保存"并选择一个列表（如收藏夹）' },
+              { id: 'maps-4-q1-c', textEn: 'Write it down on paper', textZh: '在纸上写下来' },
+              { id: 'maps-4-q1-d', textEn: 'You cannot save places in Google Maps', textZh: '您无法在 Google 地图中保存地点' }
+            ],
+            correctAnswer: 'maps-4-q1-b',
+            explanationEn: 'When viewing a place, tap the "Save" button and then choose or create a list to keep that location for quick access later.',
+            explanationZh: '查看地点时，点击"保存"按钮，然后选择或创建一个列表，以便稍后快速访问该位置。',
+            points: 10,
+          },
+          {
+            id: 'maps-4-q2',
+            type: 'multiple-choice',
+            questionEn: 'Where can you find all your saved places?',
+            questionZh: '您可以在哪里找到所有保存的地点？',
+            options: [
+              { id: 'maps-4-q2-a', textEn: 'In the "Saved" tab at the bottom of the app', textZh: '在应用底部的"已保存"标签中' },
+              { id: 'maps-4-q2-b', textEn: 'In your phone\'s photo gallery', textZh: '在手机的照片库中' },
+              { id: 'maps-4-q2-c', textEn: 'In your email', textZh: '在您的电子邮件中' },
+              { id: 'maps-4-q2-d', textEn: 'They are deleted after 24 hours', textZh: '它们会在 24 小时后被删除' }
+            ],
+            correctAnswer: 'maps-4-q2-a',
+            explanationEn: 'The "Saved" tab in Google Maps shows all your saved lists, including Favorites, Want to Go, and custom lists you create.',
+            explanationZh: 'Google 地图中的"已保存"标签显示您所有保存的列表，包括收藏夹、想去和您创建的自定义列表。',
+            points: 10,
+          },
+          {
+            id: 'maps-4-q3',
+            type: 'multiple-choice',
+            questionEn: 'Why is it helpful to save places you visit often?',
+            questionZh: '为什么保存您经常访问的地点会有帮助？',
+            options: [
+              { id: 'maps-4-q3-a', textEn: 'It makes Google happy', textZh: '这让 Google 高兴' },
+              { id: 'maps-4-q3-b', textEn: 'You can find and navigate to them quickly without searching again', textZh: '您可以快速找到并导航到它们，而无需再次搜索' },
+              { id: 'maps-4-q3-c', textEn: 'It costs money', textZh: '这需要花钱' },
+              { id: 'maps-4-q3-d', textEn: 'There is no benefit', textZh: '没有好处' }
+            ],
+            correctAnswer: 'maps-4-q3-b',
+            explanationEn: 'Saving places makes it faster and easier to get directions to locations you visit regularly, like your doctor\'s office or favorite store.',
+            explanationZh: '保存地点可以更快、更轻松地获取您经常访问的位置的路线，例如您的医生诊所或最喜欢的商店。',
+            points: 10,
+          }
+        ],
+      },
     },
   ],
   badge: badges.find((b) => b.id === 'badge-maps'),
