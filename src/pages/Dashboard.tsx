@@ -110,8 +110,10 @@ const Dashboard = () => {
             <h1 className="text-senior-2xl font-bold text-gray-900">
               {t('modules')}
             </h1>
-            
-            {/* Language Toggle - Modern Slider */}
+
+        
+          {/*Original language toggle (before UI alignment fix) 
+            Language Toggle - Modern Slider
             <div className="flex items-center gap-3">
               <span className={`text-base font-semibold transition-colors ${currentLang === 'en' ? 'text-blue-600' : 'text-gray-400'}`}>
                 EN
@@ -131,8 +133,42 @@ const Dashboard = () => {
               <span className={`text-base font-semibold transition-colors ${currentLang === 'zh' ? 'text-blue-600' : 'text-gray-400'}`}>
                 中文
               </span>
-            </div>
-          </div>
+            </div> */}
+
+          {/* Updated language toggle (after UI alignment fix)*/}
+  <div className="flex items-center justify-end gap-2">
+   <span
+    className={`text-sm font-semibold leading-none transition-colors ${
+      currentLang === 'en' ? 'text-blue-600' : 'text-gray-400'
+    }`}
+   >
+    EN
+   </span>
+
+  <button
+   type="button"
+   onClick={() => i18n.changeLanguage(currentLang === 'en' ? 'zh' : 'en')}
+   className={`relative inline-flex h-12 w-24 items-center rounded-full transition-colors duration-200 ${
+    currentLang === 'zh' ? 'bg-blue-500' : 'bg-gray-300'
+   }`}
+   aria-label="Toggle language"
+ >
+  <span
+    className={`absolute top-1 left-1 h-10 w-10 rounded-full bg-white shadow-md transition-transform duration-200 ${
+      currentLang === 'zh' ? 'translate-x-12' : 'translate-x-0'
+    }`}
+  />
+</button>
+
+  <span
+    className={`text-sm font-semibold leading-none transition-colors ${
+      currentLang === 'zh' ? 'text-blue-600' : 'text-gray-400'
+    }`}
+  >
+    中文
+  </span>
+</div>
+          </div> 
           
           <div className="text-center">
             <div className="flex items-center justify-center gap-4 text-senior-base">
