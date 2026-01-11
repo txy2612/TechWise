@@ -2,14 +2,14 @@
 // REDESIGNED: Simulation-first with non-blocking hints
 
 import React, { useState, useEffect } from 'react';
-import { Navigation, Volume2, X, Menu, ArrowRight, Check } from 'lucide-react';
+import { Volume2, X, Menu, ArrowRight, Check } from 'lucide-react';
 
 interface GoogleNavigationProps {
   onComplete: () => void;
   language: 'en' | 'zh';
 }
 
-type Step = 
+type Step =
   | 'intro'
   | 'start-navigation'
   | 'watch-instruction'
@@ -33,7 +33,6 @@ const GoogleNavigation: React.FC<GoogleNavigationProps> = ({ onComplete, languag
   const [currentStep, setCurrentStep] = useState<Step>('intro');
   const [navigationStarted, setNavigationStarted] = useState(false);
   const [hasAcknowledgedInstruction, setHasAcknowledgedInstruction] = useState(false);
-  const [hasFollowedRoute, setHasFollowedRoute] = useState(false);
   const [currentSegment, setCurrentSegment] = useState(0);
 
   const [navState, setNavState] = useState<NavigationState>({
@@ -59,7 +58,7 @@ const GoogleNavigation: React.FC<GoogleNavigationProps> = ({ onComplete, languag
     hintAcknowledge: 'Click "Got It!" when you understand the instruction',
     hintFollow: 'Watch as the route guides you. Click "Continue" when ready.',
     hintArrival: 'You\'ve arrived! This is how navigation ends.',
-    
+
     // Complete
     congratulations: 'Perfect!',
     completeText: 'You now understand how GPS navigation works!',
@@ -77,7 +76,7 @@ const GoogleNavigation: React.FC<GoogleNavigationProps> = ({ onComplete, languag
     arriving: 'Arriving at destination',
     youArrived: 'You have arrived',
     finish: 'Finish Lesson',
-    
+
     // Navigation elements
     to: 'to',
     volume: 'Volume',
@@ -94,7 +93,7 @@ const GoogleNavigation: React.FC<GoogleNavigationProps> = ({ onComplete, languag
     hintAcknowledge: '当您理解指示时点击"明白了！"',
     hintFollow: '观察路线如何引导您。准备好后点击"继续"。',
     hintArrival: '您已到达！这就是导航结束的方式。',
-    
+
     // Complete
     congratulations: '完美！',
     completeText: '您现在了解GPS导航的工作原理了！',
@@ -112,7 +111,7 @@ const GoogleNavigation: React.FC<GoogleNavigationProps> = ({ onComplete, languag
     arriving: '即将到达目的地',
     youArrived: '您已到达',
     finish: '完成课程',
-    
+
     // Navigation elements
     to: '前往',
     volume: '音量',
@@ -212,7 +211,7 @@ const GoogleNavigation: React.FC<GoogleNavigationProps> = ({ onComplete, languag
   // ========================================
   if (currentStep === 'intro') {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 flex items-center justify-center p-6">
+      <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 flex justify-center items-start p-6 pt-20">
         <div className="max-w-2xl w-full bg-white rounded-3xl shadow-lg p-12">
           <div className="text-center mb-6">
             <div className="text-8xl mb-4">🧭</div>
@@ -243,7 +242,7 @@ const GoogleNavigation: React.FC<GoogleNavigationProps> = ({ onComplete, languag
   // ========================================
   if (currentStep === 'complete') {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 flex items-center justify-center p-6">
+      <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 flex justify-center items-start p-6 pt-20">
         <div className="max-w-2xl w-full bg-white rounded-3xl shadow-lg p-12">
           <div className="text-center mb-6">
             <div className="text-8xl mb-4">🎉</div>
@@ -281,10 +280,14 @@ const GoogleNavigation: React.FC<GoogleNavigationProps> = ({ onComplete, languag
   // ========================================
   // FLOATING HINT COMPONENT
   // ========================================
-  const FloatingHint = ({ text, position }: { text: string; position: { top?: string; bottom?: string; left?: string; right?: string } }) => (
-    <div 
-      className="absolute z-50 bg-yellow-400 text-gray-900 px-6 py-4 rounded-2xl shadow-2xl font-bold text-lg max-w-md animate-bounce"
-      style={position}
+  const FloatingHint = ({ text, position }: { text: string; position: React.CSSProperties }) => (
+    <div
+      key={text}
+      className="absolute z-50 bg-yellow-400 text-gray-900 px-6 py-4 rounded-2xl shadow-2xl font-bold text-lg max-w-md"
+      style={{
+        ...position,
+        animation: 'bounce-subtle 1.5s ease-in-out infinite'
+      }}
     >
       <div className="flex items-center gap-3">
         <span className="text-2xl">👉</span>
@@ -328,7 +331,7 @@ const GoogleNavigation: React.FC<GoogleNavigationProps> = ({ onComplete, languag
 
         {/* Navigation Interface */}
         <div className="relative bg-white rounded-3xl shadow-2xl overflow-hidden border-4 border-purple-500">
-          
+
           {/* Header */}
           <div className="bg-white px-6 py-4 flex items-center justify-between border-b-2 border-gray-200">
             <div className="flex items-center gap-4">
@@ -373,7 +376,7 @@ const GoogleNavigation: React.FC<GoogleNavigationProps> = ({ onComplete, languag
 
             {/* Hint for instruction */}
             {currentStep === 'watch-instruction' && (
-              <FloatingHint 
+              <FloatingHint
                 text={t.hintInstruction}
                 position={{ top: '20px', left: '50%', transform: 'translateX(-50%)' }}
               />
@@ -393,17 +396,17 @@ const GoogleNavigation: React.FC<GoogleNavigationProps> = ({ onComplete, languag
             </svg>
 
             {/* Blue dot (your location) */}
-            <div 
+            <div
               className="absolute w-6 h-6 bg-blue-600 rounded-full border-4 border-white shadow-lg"
-              style={{ 
-                left: 'calc(50% - 12px)', 
+              style={{
+                left: 'calc(50% - 12px)',
                 bottom: currentStep === 'follow-route' ? `${100 - (navState.distanceRemaining / 5)}%` : '20px',
                 transition: 'bottom 0.5s ease-out'
               }}
             />
 
             {/* Destination pin */}
-            <div 
+            <div
               className="absolute text-4xl"
               style={{ left: 'calc(50% - 20px)', top: '10px' }}
             >
@@ -435,7 +438,7 @@ const GoogleNavigation: React.FC<GoogleNavigationProps> = ({ onComplete, languag
                 >
                   {t.startNav}
                 </button>
-                <FloatingHint 
+                <FloatingHint
                   text={t.hintStart}
                   position={{ bottom: '80px', left: '50%', transform: 'translateX(-50%)' }}
                 />
@@ -450,7 +453,7 @@ const GoogleNavigation: React.FC<GoogleNavigationProps> = ({ onComplete, languag
                 >
                   {t.gotIt}
                 </button>
-                <FloatingHint 
+                <FloatingHint
                   text={t.hintAcknowledge}
                   position={{ bottom: '80px', left: '50%', transform: 'translateX(-50%)' }}
                 />
@@ -463,7 +466,7 @@ const GoogleNavigation: React.FC<GoogleNavigationProps> = ({ onComplete, languag
                   {language === 'en' ? 'Following route...' : '跟随路线...'}
                 </div>
                 <div className="w-full bg-gray-200 rounded-full h-2">
-                  <div 
+                  <div
                     className="bg-purple-600 h-2 rounded-full transition-all duration-500"
                     style={{ width: `${100 - (navState.distanceRemaining / 5)}%` }}
                   />
@@ -488,7 +491,7 @@ const GoogleNavigation: React.FC<GoogleNavigationProps> = ({ onComplete, languag
                 >
                   {t.finish} →
                 </button>
-                <FloatingHint 
+                <FloatingHint
                   text={t.hintArrival}
                   position={{ top: '-80px', left: '50%', transform: 'translateX(-50%)' }}
                 />

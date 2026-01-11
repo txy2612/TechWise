@@ -17,9 +17,22 @@ import { GmailOrganize } from '../../components/simulations/module1/GmailOrganiz
 import RealGoogleSearch from '../../components/simulations/module2/RealGoogleSearch';
 import GoogleVoiceSearch from '../../components/simulations/module2/GoogleVoiceSearch';
 import GoogleFilterTabs from '../../components/simulations/module2/GoogleFilterTabs';
+//Module 3
 import GoogleNavigation from '../../components/simulations/module3/GoogleNavigation';
 import GoogleMapsFindingPlaces from '../../components/simulations/module3/GoogleMapsFindingPlaces';
 import GoogleMapsDirections from '../../components/simulations/module3/GoogleMapsDirections';
+
+//Module 4
+import { PasswordStrengthLesson } from '../../components/simulations/Safety/PasswordStrengthLesson';
+import { RecognizingScamsLesson } from '../../components/simulations/Safety/RecognizingScamsLesson';
+import { PhishingDetection } from '../../components/simulations/Safety/PhishingDetection';
+import { FakeWebsiteLesson } from '../../components/simulations/Safety/FakeWebsiteLesson';
+
+//Module 5
+import ControlCenterBasics from '../../components/simulations/module5/ControlCenterBasics';
+import ConnectWifi from '../../components/simulations/module5/ConnectWifi';
+import SettingsTextSize from '../../components/simulations/module5/SettingsTextSize';
+import ManageAppsStorage from '../../components/simulations/module5/ManageAppsStorage';
 
 const LessonPageNew = () => {
   const { lessonId } = useParams<{ lessonId: string }>();
@@ -74,7 +87,7 @@ const LessonPageNew = () => {
   // NEW: Handle skip quiz
   const handleSkipQuiz = () => {
     // Mark lesson as complete with 0 points
-    updateProgress({ 
+    updateProgress({
       completedLessons: [...progress.completedLessons, lesson.id],
       totalPoints: progress.totalPoints || 0  // No quiz points added
     });
@@ -87,15 +100,15 @@ const LessonPageNew = () => {
     if (lesson.id === 'lesson-gmail-1') {
       return <GmailSignInNav onComplete={handleStepComplete} onBack={() => navigate(-1)} language={currentLang} />;
     }
-    
+
     if (lesson.id === 'lesson-gmail-2') {
       return <GmailCompose onComplete={handleStepComplete} language={currentLang} />;
     }
-    
+
     if (lesson.id === 'lesson-gmail-3') {
       return <GmailReadReply onComplete={handleStepComplete} onBack={() => navigate(-1)} language={currentLang} />;
     }
-    
+
     if (lesson.id === 'lesson-gmail-4') {
       return <GmailOrganize onComplete={handleStepComplete} onBack={() => navigate(-1)} language={currentLang} />;
     }
@@ -104,26 +117,60 @@ const LessonPageNew = () => {
     if (lesson.id === 'lesson-search-1') {
       return <RealGoogleSearch onComplete={handleStepComplete} language={currentLang} />;
     }
-    
+
     if (lesson.id === 'lesson-search-2') {
       return <GoogleVoiceSearch onComplete={handleStepComplete} language={currentLang} />;
     }
-    
+
     if (lesson.id === 'lesson-search-3') {
       return <GoogleFilterTabs onComplete={handleStepComplete} language={currentLang} />;
+    }
+
+    //MODULE 4 (Online Safety)
+    if (lesson.id === 'lesson-safety-1') {
+      return <PasswordStrengthLesson onComplete={handleStepComplete} language={currentLang} />;
+    }
+
+    if (lesson.id === 'lesson-safety-2') {
+      return <RecognizingScamsLesson onComplete={handleStepComplete} language={currentLang} />;
+    }
+
+    if (lesson.id === 'lesson-safety-3') {
+      return <FakeWebsiteLesson onComplete={handleStepComplete} language={currentLang} />;
+    }
+
+    if (lesson.id === 'lesson-safety-4') {
+      return <PhishingDetection onComplete={handleStepComplete} language={currentLang} />;
     }
 
     // MODULE 3 (Google Maps)
     if (lesson.id === 'lesson-maps-1') {
       return <GoogleMapsFindingPlaces onComplete={handleStepComplete} language={currentLang} />;
     }
-    
+
     if (lesson.id === 'lesson-maps-2') {
       return <GoogleMapsDirections onComplete={handleStepComplete} language={currentLang} />;
     }
 
     if (lesson.id === 'lesson-maps-3') {
       return <GoogleNavigation onComplete={handleStepComplete} language={currentLang} />;
+    }
+
+    // MODULE 5 (Smartphone Basics)
+    if (lesson.id === 'lesson-smartphone-1') {
+      return <ControlCenterBasics onComplete={handleStepComplete} onBack={() => navigate(-1)} language={currentLang} />;
+    }
+
+    if (lesson.id === 'lesson-smartphone-2') {
+      return <ConnectWifi onComplete={handleStepComplete} onBack={() => navigate(-1)} language={currentLang} />;
+    }
+
+    if (lesson.id === 'lesson-smartphone-3') {
+      return <SettingsTextSize onComplete={handleStepComplete} onBack={() => navigate(-1)} language={currentLang} />;
+    }
+
+    if (lesson.id === 'lesson-smartphone-4') {
+      return <ManageAppsStorage onComplete={handleStepComplete} onBack={() => navigate(-1)} language={currentLang} />;
     }
 
     // Default tutorial/practice content
@@ -168,8 +215,8 @@ const LessonPageNew = () => {
             {currentLang === 'en' ? 'Lesson Complete!' : '课程完成！'}
           </h2>
           <p className="text-2xl text-gray-600 mb-4">
-            {currentLang === 'en' 
-              ? 'Ready to test what you learned?' 
+            {currentLang === 'en'
+              ? 'Ready to test what you learned?'
               : '准备测试您学到的知识了吗？'}
           </p>
           <p className="text-xl text-gray-500 mb-10">
@@ -177,7 +224,7 @@ const LessonPageNew = () => {
               ? `${lesson.quiz?.questions?.length || 0} quick questions`
               : `${lesson.quiz?.questions?.length || 0} 个快速问题`}
           </p>
-          
+
           {/* Primary Button: Start Quiz */}
           <button
             onClick={handleStartQuiz}
@@ -214,7 +261,7 @@ const LessonPageNew = () => {
           moduleId={module.id}
           onComplete={(score, points) => {
             // Mark lesson as complete with quiz points
-            updateProgress({ 
+            updateProgress({
               completedLessons: [...progress.completedLessons, lesson.id],
               totalPoints: (progress.totalPoints || 0) + points
             });
@@ -244,9 +291,8 @@ const LessonPageNew = () => {
             {lesson.steps.map((_, index) => (
               <div
                 key={index}
-                className={`step-dot ${index === currentStep ? 'active' : ''} ${
-                  index < currentStep ? 'completed' : ''
-                }`}
+                className={`step-dot ${index === currentStep ? 'active' : ''} ${index < currentStep ? 'completed' : ''
+                  }`}
               />
             ))}
           </div>
@@ -260,7 +306,7 @@ const LessonPageNew = () => {
           <p className="text-senior-sm text-gray-600">
             {currentLang === 'en' ? module.titleEn : module.titleZh}
           </p>
-          
+
           {/* Skip Lesson Button */}
           <button
             onClick={() => {

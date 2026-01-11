@@ -2,14 +2,14 @@
 // REDESIGNED: Simulation-first with non-blocking hints
 
 import React, { useState, useEffect } from 'react';
-import { Search, Navigation, MapPin, ArrowRight, Check } from 'lucide-react';
+import { Search, Navigation, ArrowRight, Check } from 'lucide-react';
 
 interface GoogleMapsDirectionsProps {
   onComplete: () => void;
   language: 'en' | 'zh';
 }
 
-type Step = 
+type Step =
   | 'intro'
   | 'search-destination'
   | 'set-starting-point'
@@ -35,11 +35,11 @@ const GoogleMapsDirections: React.FC<GoogleMapsDirectionsProps> = ({ onComplete,
     startLesson: 'Start Learning',
 
     // Hints
-    hintDestination: 'Search for where you want to go, like "McDonald\'s Times Square"',
+    hintDestination: 'Search for where you want to go, like "McDonald PJ"',
     hintStartPoint: 'Type your starting location, like "Central Park"',
     hintTransport: 'Choose how you\'ll travel: 🚗 driving, 🚶 walking, or 🚌 transit',
     hintExplore: 'Great! Now try planning other trips on your own.',
-    
+
     // Complete
     congratulations: 'Excellent Work!',
     completeText: 'You can now get directions to anywhere on Google Maps!',
@@ -64,11 +64,11 @@ const GoogleMapsDirections: React.FC<GoogleMapsDirectionsProps> = ({ onComplete,
     startLesson: '开始学习',
 
     // Hints
-    hintDestination: '搜索您想去的地方，如"时代广场麦当劳"',
+    hintDestination: 'Search for where you want to go, like "McDonald PJ"',
     hintStartPoint: '输入您的起始位置，如"中央公园"',
     hintTransport: '选择您的出行方式：🚗 驾车、🚶 步行或 🚌 公交',
     hintExplore: '太好了！现在尝试自己规划其他行程。',
-    
+
     // Complete
     congratulations: '做得好！',
     completeText: '您现在可以在谷歌地图上获取到任何地方的路线！',
@@ -89,10 +89,16 @@ const GoogleMapsDirections: React.FC<GoogleMapsDirectionsProps> = ({ onComplete,
   };
 
   // Generate Google Maps URL with directions
-  const generateDirectionsUrl = (from: string, to: string) => {
+  // Generate Google Maps URL with directions
+  const generateDirectionsUrl = (from: string, to: string, mode?: 'driving' | 'walking' | 'transit') => {
     const encodedFrom = encodeURIComponent(from || 'Central Park, New York');
     const encodedTo = encodeURIComponent(to || 'Times Square, New York');
-    return `https://maps.google.com/maps?saddr=${encodedFrom}&daddr=${encodedTo}&hl=${language}&output=embed`;
+
+    let dirflg = 'd'; // default driving
+    if (mode === 'walking') dirflg = 'w';
+    if (mode === 'transit') dirflg = 'r';
+
+    return `https://maps.google.com/maps?saddr=${encodedFrom}&daddr=${encodedTo}&hl=${language}&dirflg=${dirflg}&output=embed`;
   };
 
   const generateSearchUrl = (query: string) => {
@@ -103,11 +109,11 @@ const GoogleMapsDirections: React.FC<GoogleMapsDirectionsProps> = ({ onComplete,
   // Update map
   useEffect(() => {
     if (showDirectionsMode && destination && startPoint) {
-      setMapSrc(generateDirectionsUrl(startPoint, destination));
+      setMapSrc(generateDirectionsUrl(startPoint, destination, selectedTransport || 'driving'));
     } else if (destination) {
       setMapSrc(generateSearchUrl(destination));
     }
-  }, [destination, startPoint, showDirectionsMode, language]);
+  }, [destination, startPoint, showDirectionsMode, language, selectedTransport]);
 
   const handleSearchDestination = () => {
     if (destination.trim()) {
@@ -128,6 +134,7 @@ const GoogleMapsDirections: React.FC<GoogleMapsDirectionsProps> = ({ onComplete,
   const handleTransportSelect = (mode: 'driving' | 'walking' | 'transit') => {
     setSelectedTransport(mode);
     setHasChosenTransport(true);
+    setMapSrc(generateDirectionsUrl(startPoint, destination, mode));
     setTimeout(() => setCurrentStep('free-explore'), 500);
   };
 
@@ -136,7 +143,7 @@ const GoogleMapsDirections: React.FC<GoogleMapsDirectionsProps> = ({ onComplete,
   // ========================================
   if (currentStep === 'intro') {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 flex items-center justify-center p-6">
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 flex justify-center items-start p-6 pt-20">
         <div className="max-w-2xl w-full bg-white rounded-3xl shadow-lg p-12">
           <div className="text-center mb-6">
             <div className="text-8xl mb-4">🧭</div>
@@ -167,7 +174,7 @@ const GoogleMapsDirections: React.FC<GoogleMapsDirectionsProps> = ({ onComplete,
   // ========================================
   if (currentStep === 'complete') {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 flex items-center justify-center p-6">
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 flex justify-center items-start p-6 pt-20">
         <div className="max-w-2xl w-full bg-white rounded-3xl shadow-lg p-12">
           <div className="text-center mb-6">
             <div className="text-8xl mb-4">🎉</div>
@@ -204,10 +211,14 @@ const GoogleMapsDirections: React.FC<GoogleMapsDirectionsProps> = ({ onComplete,
   // ========================================
   // FLOATING HINT COMPONENT
   // ========================================
-  const FloatingHint = ({ text, position }: { text: string; position: { top?: string; bottom?: string; left?: string; right?: string } }) => (
-    <div 
-      className="absolute z-50 bg-yellow-400 text-gray-900 px-6 py-4 rounded-2xl shadow-2xl font-bold text-lg max-w-sm animate-bounce"
-      style={position}
+  const FloatingHint = ({ text, position }: { text: string; position: React.CSSProperties }) => (
+    <div
+      key={text}
+      className="absolute z-50 bg-yellow-400 text-gray-900 px-6 py-4 rounded-2xl shadow-2xl font-bold text-lg max-w-sm"
+      style={{
+        ...position,
+        animation: 'bounce-subtle 1.5s ease-in-out infinite'
+      }}
     >
       <div className="flex items-center gap-3">
         <span className="text-2xl">👉</span>
@@ -240,28 +251,34 @@ const GoogleMapsDirections: React.FC<GoogleMapsDirectionsProps> = ({ onComplete,
 
         {/* Map Container */}
         <div className="relative w-full h-[600px] rounded-2xl overflow-hidden border-4 border-blue-500 shadow-2xl">
-          
+
           {/* Search/Directions Interface */}
           {!showDirectionsMode ? (
             // Search Mode
             <div className="absolute top-4 left-4 right-4 z-40">
-              <div className="bg-white rounded-2xl p-4 shadow-xl border-2 border-gray-200">
+              <div className={`bg-white rounded-2xl p-4 shadow-xl border-2 ${currentStep === 'search-destination' ? 'border-blue-500 highlight-pulse' : 'border-gray-200'}`}>
                 <div className="flex items-center gap-4">
-                  <Search className="w-8 h-8 text-blue-600" />
+                  <Search className="w-8 h-8 text-gray-400" />
                   <input
                     type="text"
                     value={destination}
-                    onChange={(e) => setDestination(e.target.value)}
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      setDestination(val);
+                      if ((val.toLowerCase().includes('mcdonald pj') || val.includes('麦当劳 pj')) && !hasSearchedDestination) {
+                        setHasSearchedDestination(true);
+                        // Delay layout change and step change to sync with new hint
+                        setTimeout(() => {
+                          setMapSrc(generateSearchUrl(val));
+                          setShowDirectionsMode(true);
+                          setCurrentStep('set-starting-point');
+                        }, 1000);
+                      }
+                    }}
                     onKeyPress={(e) => e.key === 'Enter' && handleSearchDestination()}
                     placeholder={t.searchPlaceholder}
                     className="flex-1 outline-none text-xl font-medium bg-transparent placeholder-gray-500"
                   />
-                  <button
-                    onClick={handleSearchDestination}
-                    className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white text-lg font-bold rounded-xl"
-                  >
-                    🔍 {t.search}
-                  </button>
                 </div>
               </div>
             </div>
@@ -281,7 +298,7 @@ const GoogleMapsDirections: React.FC<GoogleMapsDirectionsProps> = ({ onComplete,
                       onChange={(e) => setStartPoint(e.target.value)}
                       onKeyPress={(e) => e.key === 'Enter' && handleSetStartPoint()}
                       placeholder={t.startPlaceholder}
-                      className="flex-1 outline-none text-lg font-medium bg-gray-50 p-2 rounded-lg"
+                      className={`flex-1 outline-none text-lg font-medium bg-gray-50 p-2 rounded-lg transition-all ${currentStep === 'set-starting-point' ? 'border-2 border-blue-500 highlight-pulse' : ''}`}
                     />
                     {!hasSetStartPoint && startPoint.trim() && (
                       <button
@@ -292,7 +309,7 @@ const GoogleMapsDirections: React.FC<GoogleMapsDirectionsProps> = ({ onComplete,
                       </button>
                     )}
                   </div>
-                  
+
                   {/* Destination */}
                   <div className="flex items-center gap-4">
                     <div className="w-8 h-8 rounded-full bg-red-600 text-white flex items-center justify-center font-bold">
@@ -310,34 +327,31 @@ const GoogleMapsDirections: React.FC<GoogleMapsDirectionsProps> = ({ onComplete,
                 {/* Transport Mode Selection */}
                 {currentStep === 'choose-transport' || currentStep === 'free-explore' ? (
                   <div className="mt-4 pt-4 border-t border-gray-200">
-                    <div className="flex gap-3">
+                    <div className={`flex gap-3 p-1 rounded-xl transition-all ${currentStep === 'choose-transport' ? 'border-2 border-blue-500 highlight-pulse' : ''}`}>
                       <button
                         onClick={() => handleTransportSelect('driving')}
-                        className={`flex-1 py-3 px-4 rounded-xl font-semibold transition-all ${
-                          selectedTransport === 'driving'
-                            ? 'bg-blue-600 text-white scale-105'
-                            : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                        }`}
+                        className={`flex-1 py-3 px-4 rounded-xl font-semibold transition-all ${selectedTransport === 'driving'
+                          ? 'bg-blue-600 text-white scale-105'
+                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                          }`}
                       >
                         🚗 {t.driving}
                       </button>
                       <button
                         onClick={() => handleTransportSelect('walking')}
-                        className={`flex-1 py-3 px-4 rounded-xl font-semibold transition-all ${
-                          selectedTransport === 'walking'
-                            ? 'bg-blue-600 text-white scale-105'
-                            : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                        }`}
+                        className={`flex-1 py-3 px-4 rounded-xl font-semibold transition-all ${selectedTransport === 'walking'
+                          ? 'bg-blue-600 text-white scale-105'
+                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                          }`}
                       >
                         🚶 {t.walking}
                       </button>
                       <button
                         onClick={() => handleTransportSelect('transit')}
-                        className={`flex-1 py-3 px-4 rounded-xl font-semibold transition-all ${
-                          selectedTransport === 'transit'
-                            ? 'bg-blue-600 text-white scale-105'
-                            : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                        }`}
+                        className={`flex-1 py-3 px-4 rounded-xl font-semibold transition-all ${selectedTransport === 'transit'
+                          ? 'bg-blue-600 text-white scale-105'
+                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                          }`}
                       >
                         🚌 {t.transit}
                       </button>
@@ -350,30 +364,30 @@ const GoogleMapsDirections: React.FC<GoogleMapsDirectionsProps> = ({ onComplete,
 
           {/* Floating Hints - Non-blocking */}
           {currentStep === 'search-destination' && (
-            <FloatingHint 
-              text={t.hintDestination} 
-              position={{ top: '100px', left: '50%', transform: 'translateX(-50%)' }} 
+            <FloatingHint
+              text={t.hintDestination}
+              position={{ top: '120px', left: '20px' }}
             />
           )}
 
           {currentStep === 'set-starting-point' && (
-            <FloatingHint 
-              text={t.hintStartPoint} 
-              position={{ top: '20px', left: '50px' }} 
+            <FloatingHint
+              text={t.hintStartPoint}
+              position={{ top: '160px', left: '20px' }}
             />
           )}
 
           {currentStep === 'choose-transport' && (
-            <FloatingHint 
-              text={t.hintTransport} 
-              position={{ top: '180px', left: '50%', transform: 'translateX(-50%)' }} 
+            <FloatingHint
+              text={t.hintTransport}
+              position={{ top: '250px', left: '20px' }}
             />
           )}
 
           {currentStep === 'free-explore' && (
-            <FloatingHint 
-              text={t.hintExplore} 
-              position={{ top: '100px', left: '50%', transform: 'translateX(-50%)' }} 
+            <FloatingHint
+              text={t.hintExplore}
+              position={{ top: '250px', left: '20px' }}
             />
           )}
 
