@@ -112,7 +112,7 @@ const GoogleVoiceSearch: React.FC<GoogleVoiceSearchProps> = ({
                     onMicTap={handleMicTap}
                   />
                   {step === 0 && (
-                    <div className="absolute -right-16 top-1/2 -translate-y-1/2">
+                    <div className="absolute -right-2 top-1/2 -translate-y-4 -translate-x-20">
                       <AnimatedArrow direction="left" position="right" />
                     </div>
                   )}

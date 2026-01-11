@@ -89,13 +89,13 @@ const GoogleFilterTabs: React.FC<GoogleFilterTabsProps> = ({
             />
             
             {step === 0 && (
-              <div className="absolute top-12 left-40">
+              <div className="absolute top-4 left-40">
                 <AnimatedArrow direction="up" position="bottom" />
               </div>
             )}
             
             {step === 1 && (
-              <div className="absolute top-12 left-64">
+              <div className="absolute top-4 left-80">
                 <AnimatedArrow direction="up" position="bottom" />
               </div>
             )}

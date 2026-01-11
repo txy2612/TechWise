@@ -111,7 +111,7 @@ const RealGoogleSearch: React.FC<RealGoogleSearchProps> = ({ language = 'en' }) 
   // Intro Screen
   if (tutorialStep === 'intro') {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 p-8">
+      <div className="flex flex-col items-center justify-center h-full bg-gradient-to-br from-blue-50 to-purple-50 p-8">
         <div className="bg-white rounded-3xl shadow-2xl p-12 max-w-2xl text-center">
           <div className="text-7xl mb-6">🔍</div>
           <h1 className="text-4xl font-bold text-gray-800 mb-4">
@@ -148,9 +148,13 @@ const RealGoogleSearch: React.FC<RealGoogleSearchProps> = ({ language = 'en' }) 
       <div className="relative w-full h-full overflow-y-auto">
         
         {/* Google Logo and Search Header - Centered vertically */}
-        <div className={`bg-white transition-all duration-500 ${
-          showResults ? 'p-6 border-b border-gray-200' : 'min-h-screen flex items-center justify-center'
-        }`}>
+        <div
+  className={`bg-white transition-all duration-500 ${
+    showResults
+      ? 'p-6 border-b border-gray-200'
+      : 'min-h-screen flex items-center justify-center -translate-y-80'
+  }`}
+>
           <div className="max-w-2xl mx-auto w-full px-4">
             {/* Google Logo */}
             <div className="text-center mb-8">
