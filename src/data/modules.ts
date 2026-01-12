@@ -1220,9 +1220,75 @@ const smartphoneModule: Module = {
         id: 'quiz-smartphone-1',
         lessonId: 'lesson-smartphone-1',
         passingScore: 80,
-        questions: [],
+        questions: [
+          {
+            id: 'smartphone-1-q1',
+            type: 'multiple-choice',
+            questionEn: 'How do you open Control Center?',
+            questionZh: '如何打开控制中心？',
+            options: [
+              { id: 'smartphone-1-q1-a', textEn: 'Swipe down on the screen', textZh: '在屏幕上向下滑动' },
+              { id: 'smartphone-1-q1-b', textEn: 'Swipe up on the screen', textZh: '在屏幕上向上滑动' },
+              { id: 'smartphone-1-q1-c', textEn: 'Double tap the Home button', textZh: '双击 Home 键' },
+              { id: 'smartphone-1-q1-d', textEn: 'Restart the phone', textZh: '重启手机' }
+            ],
+            correctAnswer: 'smartphone-1-q1-a',
+            explanationEn: 'In this lesson, you open Control Center by swiping down.',
+            explanationZh: '在本课程中，你通过向下滑动来打开控制中心。',
+            points: 10,
+          },
+          {
+            id: 'smartphone-1-q2',
+            type: 'multiple-choice',
+            questionEn: 'Which icon should you tap to turn on the flashlight?',
+            questionZh: '要打开手电筒，应该点击哪个图标？',
+            options: [
+              { id: 'smartphone-1-q2-a', textEn: 'Flashlight', textZh: '手电筒' },
+              { id: 'smartphone-1-q2-b', textEn: 'Wi-Fi', textZh: 'Wi-Fi' },
+              { id: 'smartphone-1-q2-c', textEn: 'Brightness', textZh: '亮度' },
+              { id: 'smartphone-1-q2-d', textEn: 'Battery', textZh: '电池' }
+            ],
+            correctAnswer: 'smartphone-1-q2-a',
+            explanationEn: 'The Flashlight icon controls the phone\'s flashlight.',
+            explanationZh: '手电筒图标用于控制手机手电筒。',
+            points: 10,
+          },
+          {
+            id: 'smartphone-1-q3',
+            type: 'multiple-choice',
+            questionEn: 'What does the brightness slider do?',
+            questionZh: '亮度滑杆的作用是什么？',
+            options: [
+              { id: 'smartphone-1-q3-a', textEn: 'Changes the screen brightness', textZh: '改变屏幕亮度' },
+              { id: 'smartphone-1-q3-b', textEn: 'Changes the phone volume', textZh: '改变手机音量' },
+              { id: 'smartphone-1-q3-c', textEn: 'Deletes photos', textZh: '删除照片' },
+              { id: 'smartphone-1-q3-d', textEn: 'Turns on airplane mode', textZh: '开启飞行模式' }
+            ],
+            correctAnswer: 'smartphone-1-q3-a',
+            explanationEn: 'Dragging the slider makes the screen brighter or dimmer.',
+            explanationZh: '拖动滑杆会让屏幕更亮或更暗。',
+            points: 10,
+          },
+          {
+            id: 'smartphone-1-q4',
+            type: 'multiple-choice',
+            questionEn: 'Which icon helps you connect to the internet wirelessly?',
+            questionZh: '哪个图标可以帮助你无线连接网络？',
+            options: [
+              { id: 'smartphone-1-q4-a', textEn: 'Wi-Fi', textZh: 'Wi-Fi' },
+              { id: 'smartphone-1-q4-b', textEn: 'Flashlight', textZh: '手电筒' },
+              { id: 'smartphone-1-q4-c', textEn: 'Brightness', textZh: '亮度' },
+              { id: 'smartphone-1-q4-d', textEn: 'Calculator', textZh: '计算器' }
+            ],
+            correctAnswer: 'smartphone-1-q4-a',
+            explanationEn: 'Wi-Fi is used to connect to the internet without cables.',
+            explanationZh: 'Wi-Fi 用于无线连接互联网。',
+            points: 10,
+          }
+        ],
       },
     },
+
     {
       id: 'lesson-smartphone-2',
       moduleId: 'module-smartphone',
@@ -1239,9 +1305,59 @@ const smartphoneModule: Module = {
         id: 'quiz-smartphone-2',
         lessonId: 'lesson-smartphone-2',
         passingScore: 80,
-        questions: [],
+        questions: [
+          {
+            id: 'smartphone-2-q1',
+            type: 'multiple-choice',
+            questionEn: 'What do you do first to connect to Wi-Fi?',
+            questionZh: '连接 Wi-Fi 的第一步是什么？',
+            options: [
+              { id: 'smartphone-2-q1-a', textEn: 'Choose a Wi-Fi network', textZh: '选择一个 Wi-Fi 网络' },
+              { id: 'smartphone-2-q1-b', textEn: 'Turn on flashlight', textZh: '打开手电筒' },
+              { id: 'smartphone-2-q1-c', textEn: 'Change text size', textZh: '更改文字大小' },
+              { id: 'smartphone-2-q1-d', textEn: 'Uninstall an app', textZh: '卸载应用' }
+            ],
+            correctAnswer: 'smartphone-2-q1-a',
+            explanationEn: 'You must pick a network before entering a password.',
+            explanationZh: '必须先选择网络，才能输入密码连接。',
+            points: 10,
+          },
+          {
+            id: 'smartphone-2-q2',
+            type: 'multiple-choice',
+            questionEn: 'After typing a password, what should you tap to connect?',
+            questionZh: '输入密码后，应该点击什么来连接？',
+            options: [
+              { id: 'smartphone-2-q2-a', textEn: 'Next', textZh: '下一步' },
+              { id: 'smartphone-2-q2-b', textEn: 'Back', textZh: '返回' },
+              { id: 'smartphone-2-q2-c', textEn: 'Uninstall', textZh: '卸载' },
+              { id: 'smartphone-2-q2-d', textEn: 'Brightness', textZh: '亮度' }
+            ],
+            correctAnswer: 'smartphone-2-q2-a',
+            explanationEn: 'In the lesson, you tap "Next" to proceed with connecting.',
+            explanationZh: '在课程中，你点击"下一步"来继续连接。',
+            points: 10,
+          },
+          {
+            id: 'smartphone-2-q3',
+            type: 'multiple-choice',
+            questionEn: 'What message confirms you are connected?',
+            questionZh: '哪个提示表示你已成功连接？',
+            options: [
+              { id: 'smartphone-2-q3-a', textEn: '"Now you\'re connected!"', textZh: '"你已经成功连接！"' },
+              { id: 'smartphone-2-q3-b', textEn: '"Low battery"', textZh: '"电量不足"' },
+              { id: 'smartphone-2-q3-c', textEn: '"Storage full"', textZh: '"存储空间已满"' },
+              { id: 'smartphone-2-q3-d', textEn: '"Try again later"', textZh: '"稍后再试"' }
+            ],
+            correctAnswer: 'smartphone-2-q3-a',
+            explanationEn: 'The lesson shows a success message: "Now you\'re connected!".',
+            explanationZh: '课程会显示成功提示："你已经成功连接！"。',
+            points: 10,
+          }
+        ],
       },
     },
+
     {
       id: 'lesson-smartphone-3',
       moduleId: 'module-smartphone',
@@ -1258,9 +1374,59 @@ const smartphoneModule: Module = {
         id: 'quiz-smartphone-3',
         lessonId: 'lesson-smartphone-3',
         passingScore: 80,
-        questions: [],
+        questions: [
+          {
+            id: 'smartphone-3-q1',
+            type: 'multiple-choice',
+            questionEn: 'Which app do you tap to begin changing personalization settings?',
+            questionZh: '要开始更改个性化设置，应该点击哪个应用？',
+            options: [
+              { id: 'smartphone-3-q1-a', textEn: 'Settings', textZh: '设置' },
+              { id: 'smartphone-3-q1-b', textEn: 'Camera', textZh: '相机' },
+              { id: 'smartphone-3-q1-c', textEn: 'Messages', textZh: '信息' },
+              { id: 'smartphone-3-q1-d', textEn: 'Music', textZh: '音乐' }
+            ],
+            correctAnswer: 'smartphone-3-q1-a',
+            explanationEn: 'The lesson starts by tapping the Settings app.',
+            explanationZh: '课程第一步是点击"设置"应用。',
+            points: 10,
+          },
+          {
+            id: 'smartphone-3-q2',
+            type: 'multiple-choice',
+            questionEn: 'How do you make the text bigger?',
+            questionZh: '如何让文字变大？',
+            options: [
+              { id: 'smartphone-3-q2-a', textEn: 'Move the text size slider', textZh: '移动文字大小滑块' },
+              { id: 'smartphone-3-q2-b', textEn: 'Turn on Wi-Fi', textZh: '打开 Wi-Fi' },
+              { id: 'smartphone-3-q2-c', textEn: 'Tap Flashlight', textZh: '点击手电筒' },
+              { id: 'smartphone-3-q2-d', textEn: 'Uninstall an app', textZh: '卸载应用' }
+            ],
+            correctAnswer: 'smartphone-3-q2-a',
+            explanationEn: 'The text size changes when you adjust the slider.',
+            explanationZh: '调整滑块会改变文字大小。',
+            points: 10,
+          },
+          {
+            id: 'smartphone-3-q3',
+            type: 'multiple-choice',
+            questionEn: 'What is the purpose of the Preview section?',
+            questionZh: '"预览"区域的作用是什么？',
+            options: [
+              { id: 'smartphone-3-q3-a', textEn: 'To show changes instantly', textZh: '即时显示更改效果' },
+              { id: 'smartphone-3-q3-a2', textEn: 'To delete settings', textZh: '删除设置' },
+              { id: 'smartphone-3-q3-b', textEn: 'To turn off the phone', textZh: '关闭手机' },
+              { id: 'smartphone-3-q3-c', textEn: 'To connect to Wi-Fi', textZh: '连接 Wi-Fi' }
+            ],
+            correctAnswer: 'smartphone-3-q3-a',
+            explanationEn: 'Preview lets you see how wallpaper, text size, and font look right away.',
+            explanationZh: '预览会让你立刻看到壁纸、文字大小和字体的变化效果。',
+            points: 10,
+          }
+        ],
       },
     },
+
     {
       id: 'lesson-smartphone-4',
       moduleId: 'module-smartphone',
@@ -1277,7 +1443,72 @@ const smartphoneModule: Module = {
         id: 'quiz-smartphone-4',
         lessonId: 'lesson-smartphone-4',
         passingScore: 80,
-        questions: [],
+        questions: [
+          {
+            id: 'smartphone-4-q1',
+            type: 'multiple-choice',
+            questionEn: 'What should you do to enter "edit mode" for apps?',
+            questionZh: '如何让应用进入"编辑模式"？',
+            options: [
+              { id: 'smartphone-4-q1-a', textEn: 'Press and hold the app icon for about 2 seconds', textZh: '长按应用图标约 2 秒' },
+              { id: 'smartphone-4-q1-b', textEn: 'Tap the app icon once quickly', textZh: '快速点按一次应用图标' },
+              { id: 'smartphone-4-q1-c', textEn: 'Swipe down to open Control Center', textZh: '下滑打开控制中心' },
+              { id: 'smartphone-4-q1-d', textEn: 'Turn on airplane mode', textZh: '开启飞行模式' }
+            ],
+            correctAnswer: 'smartphone-4-q1-a',
+            explanationEn: 'The lesson instruction says to press and hold the app icon for 2 seconds.',
+            explanationZh: '课程提示是长按应用图标 2 秒钟。',
+            points: 10,
+          },
+          {
+            id: 'smartphone-4-q2',
+            type: 'multiple-choice',
+            questionEn: 'If you tap too quickly, what hint should you follow?',
+            questionZh: '如果你点太快，应该参考哪个提示？',
+            options: [
+              { id: 'smartphone-4-q2-a', textEn: 'Try pressing and holding a little longer', textZh: '再长按久一点试试' },
+              { id: 'smartphone-4-q2-b', textEn: 'Restart the phone', textZh: '重启手机' },
+              { id: 'smartphone-4-q2-c', textEn: 'Turn off Wi-Fi', textZh: '关闭 Wi-Fi' },
+              { id: 'smartphone-4-q2-d', textEn: 'Change wallpaper', textZh: '更换壁纸' }
+            ],
+            correctAnswer: 'smartphone-4-q2-a',
+            explanationEn: 'Quick tap won\'t work—hold the icon longer to trigger edit mode.',
+            explanationZh: '轻点不会成功，需要长按更久才能进入编辑模式。',
+            points: 10,
+          },
+          {
+            id: 'smartphone-4-q3',
+            type: 'multiple-choice',
+            questionEn: 'Which button removes an app from your phone?',
+            questionZh: '哪个按钮会把应用从手机中移除？',
+            options: [
+              { id: 'smartphone-4-q3-a', textEn: 'Uninstall', textZh: '卸载' },
+              { id: 'smartphone-4-q3-b', textEn: 'Keep', textZh: '保留' },
+              { id: 'smartphone-4-q3-c', textEn: 'Back', textZh: '返回' },
+              { id: 'smartphone-4-q3-d', textEn: 'Brightness', textZh: '亮度' }
+            ],
+            correctAnswer: 'smartphone-4-q3-a',
+            explanationEn: 'Uninstall is the action that removes the app.',
+            explanationZh: '"卸载"会移除应用。',
+            points: 10,
+          },
+          {
+            id: 'smartphone-4-q4',
+            type: 'multiple-choice',
+            questionEn: 'Why does uninstalling apps help?',
+            questionZh: '为什么卸载应用有帮助？',
+            options: [
+              { id: 'smartphone-4-q4-a', textEn: 'It can free up storage space', textZh: '可以释放储存空间' },
+              { id: 'smartphone-4-q4-b', textEn: 'It increases screen brightness', textZh: '会增加屏幕亮度' },
+              { id: 'smartphone-4-q4-c', textEn: 'It turns on Wi-Fi automatically', textZh: '会自动开启 Wi-Fi' },
+              { id: 'smartphone-4-q4-d', textEn: 'It makes the phone heavier', textZh: '会让手机更重' }
+            ],
+            correctAnswer: 'smartphone-4-q4-a',
+            explanationEn: 'Removing unused apps is a common way to free storage.',
+            explanationZh: '删除不常用的应用是释放储存空间的常见方式。',
+            points: 10,
+          }
+        ],
       },
     },
   ],
