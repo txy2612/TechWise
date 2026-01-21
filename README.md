@@ -170,8 +170,6 @@ Each lesson contains:
 - Scores per lesson
 - Total points
 - Earned badges
-- Learning streak
-- User preferences
 
 ## 🎮 Points System
 
@@ -221,47 +219,7 @@ vercel
 
 3. Add environment variables in Vercel dashboard
 
-### Deploy to Other Platforms
-- **Netlify**: Connect GitHub repo
-- **Firebase Hosting**: `firebase deploy`
-- **GitHub Pages**: Build and deploy `/dist` folder
 
-## 📱 PWA Features
-
-- **Installable**: Add to home screen
-- **Offline Support**: Cache assets with service worker
-- **Background Sync**: Sync progress when online
-- **Push Notifications**: (Future feature)
-
-## 🔄 Next Steps
-
-### Phase 1: Core Content (Current)
-- ✅ Project setup
-- ✅ Basic routing
-- ✅ Progress tracking
-- ✅ Module/lesson structure
-- 🔄 Implement lesson content
-- 🔄 Build quiz components
-
-### Phase 2: Interactive Features
-- [ ] Hybrid simulation overlays
-- [ ] Interactive tutorials
-- [ ] Real screenshot integration
-- [ ] Video support
-
-### Phase 3: Advanced Features
-- [ ] Firebase authentication
-- [ ] Cloud sync
-- [ ] Social features (leaderboards)
-- [ ] Analytics dashboard
-- [ ] Content management system
-
-### Phase 4: Polish
-- [ ] Animations
-- [ ] Sound effects
-- [ ] Accessibility audit
-- [ ] Performance optimization
-- [ ] User testing with seniors
 
 ## 🤝 Contributing
 
@@ -271,15 +229,7 @@ vercel
 4. Test thoroughly (especially with seniors!)
 5. Submit a pull request
 
-## 📄 License
 
-This project is licensed under the MIT License.
-
-## 👥 Support
-
-For questions or issues:
-- Create an issue on GitHub
-- Email: support@elderlylearning.app (replace with actual)
 
 ## 🙏 Acknowledgments
 
