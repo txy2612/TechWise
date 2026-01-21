@@ -32,7 +32,6 @@ A Progressive Web App (PWA) designed to teach digital skills to seniors through 
 - 📊 **Progress Tracking** with visual indicators
 
 ### User Experience
-- 📱 **PWA** - Install as mobile app
 - 🌐 **Bilingual** - English/Chinese support
 - ♿ **Senior-Friendly Design**:
   - Large text (18px base)
@@ -40,12 +39,10 @@ A Progressive Web App (PWA) designed to teach digital skills to seniors through 
   - 44px minimum touch targets
   - Simple navigation
 - 💾 **Offline Support** with IndexedDB
-- 🎨 **Two-tone iOS-style** progress bars
 
 ### Technical Features
 - 🔥 Firebase Authentication & Firestore
 - 📦 Offline-first with localforage
-- 🎨 Tailwind CSS with custom senior-friendly utilities
 - 🌍 i18next for internationalization
 - 🚀 Fast development with Vite
 
